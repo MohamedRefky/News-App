@@ -5,7 +5,7 @@ ThemeData lightTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.light,
   scaffoldBackgroundColor: LightColor.backgroundColor,
-
+  primaryColor: LightColor.primaryColor,
   colorScheme: ColorScheme.light(),
   appBarTheme: AppBarTheme(
     // backgroundColor: Color(0xFFF6F7F9),
@@ -47,7 +47,7 @@ ThemeData lightTheme = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       foregroundColor: LightColor.primaryColor,
-      // textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+      textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -109,26 +109,25 @@ ThemeData lightTheme = ThemeData(
   // ),
   inputDecorationTheme: InputDecorationTheme(
     // suffixIconColor: Color(0xFF363636),
-   
     border: OutlineInputBorder(
-    borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.zero,
       borderSide: BorderSide(color: Color(0xFFFFFFFF), width: 1),
     ),
     focusedBorder: OutlineInputBorder(
-   borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.zero,
       borderSide: BorderSide(color: Color(0xFFFFFFFF), width: 1),
     ),
     errorBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.zero,
       borderSide: BorderSide(color: Colors.red, width: .75),
     ),
     enabledBorder: OutlineInputBorder(
-     borderRadius: BorderRadius.zero,
+      borderRadius: BorderRadius.zero,
       borderSide: BorderSide(color: Color(0xFFFFFFFF), width: 1),
     ),
     filled: true,
     fillColor: Color(0xFFFFFFFF),
-    
+
     hintStyle: TextStyle(
       color: Color(0xFF363636),
       fontSize: 16,
