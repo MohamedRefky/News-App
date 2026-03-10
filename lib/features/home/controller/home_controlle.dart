@@ -3,7 +3,7 @@ import 'package:news_app/core/data/remote_data/api_config.dart';
 import 'package:news_app/core/data/remote_data/api_servise.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
 
-import 'models/news_article_model.dart';
+import '../models/news_article_model.dart';
 
 class HomeControlle with ChangeNotifier {
   List<NewsArticleModel> newsTopHeadlineList = [];
@@ -15,12 +15,13 @@ class HomeControlle with ChangeNotifier {
   //bool topHeadlineLoading = true;
 
   String? errorMessage;
+  String? selectedCategory;
 
   HomeControlle() {
     geTopHeadline();
     geTopEverything();
   }
-  void geTopHeadline() async {
+  void geTopHeadline({String? category}) async {
     try {
       Map<String, dynamic> result = await apiServise.get(
         ApiConfig.topHeadlines,
@@ -33,7 +34,7 @@ class HomeControlle with ChangeNotifier {
       topHeadlineStatus = RequestStatusEnum.loaded;
       errorMessage = null;
     } catch (e) {
-     topHeadlineStatus = RequestStatusEnum.error;
+      topHeadlineStatus = RequestStatusEnum.error;
       errorMessage = e.toString();
     }
     notifyListeners();
@@ -55,6 +56,12 @@ class HomeControlle with ChangeNotifier {
       everyThingStatus = RequestStatusEnum.error;
       errorMessage = e.toString();
     }
+    notifyListeners();
+  }
+
+  void updateSelectCategory(String category) {
+    selectedCategory = category;
+   // geTopHeadline(category: selectedCategory);
     notifyListeners();
   }
 }
