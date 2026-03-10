@@ -1,14 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/register_screen.dart';
+import 'package:news_app/features/main/main_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey();
+
+  String? errorMassage;
+  bool isLoading = false;
+
+  void login() async {
+    setState(() {
+      isLoading = true;
+      errorMassage = null;
+    });
+    await Future.delayed(const Duration(seconds: 3));
+    final savedEmail = PreferencesManager().getString('user_email');
+    final savedPassword = PreferencesManager().getString('user_password');
+
+    if (savedEmail == null || savedPassword == null) {
+      setState(() {
+        errorMassage = 'No account found please register first';
+        isLoading = false;
+      });
+      return;
+    }
+    if (savedEmail != emailController.text.trim()) {
+      setState(() {
+        errorMassage = 'Invalid Email';
+        isLoading = false;
+      });
+      return;
+    }
+
+    if (savedPassword != passwordController.text.trim()) {
+      setState(() {
+        errorMassage = 'Invalid Password';
+        isLoading = false;
+      });
+      return;
+    }
+
+    await PreferencesManager().setBool('is_logged_in', true);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MainScreen()),
+    );
+    setState(() {
+      isLoading = false;
+      errorMassage = null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                   hintText: 'refky@gmail.com',
                   controller: emailController,
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value.isEmpty || value.trim().isEmpty) {
                       return 'Enter email';
                     }
                     RegExp emailRegex = RegExp(
@@ -67,11 +121,19 @@ class LoginScreen extends StatelessWidget {
                   controller: passwordController,
                   obscureText: true,
                   validator: (value) {
-                    if (value.isEmpty) {
+                    if (value.isEmpty || value.trim().isEmpty) {
                       return 'Enter password';
                     }
                   },
                 ),
+                if (errorMassage != null)
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      errorMassage!,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ),
                 SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
@@ -79,10 +141,12 @@ class LoginScreen extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
-                        return;
+                        login();
                       }
                     },
-                    child: Text('Sign In'),
+                    child: isLoading
+                        ? const CircularProgressIndicator()
+                        : Text('Sign In'),
                   ),
                 ),
                 SizedBox(height: 24),

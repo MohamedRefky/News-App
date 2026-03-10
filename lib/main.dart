@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/themes/light_theme.dart';
-import 'package:news_app/features/splash/splash_screen.dart';
+import 'package:news_app/features/auth/login_screen.dart';
 
 import 'core/data/local_data/prefrances_maneger.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await PreferencesManager().init();
+  await PreferencesManager().init();
   runApp(const MainApp());
 }
 
@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       theme: lightTheme,
-      home: const SplashScreen(),
+      home: LoginScreen(),
     );
   }
 }

@@ -7,6 +7,7 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: LightColor.backgroundColor,
   primaryColor: LightColor.primaryColor,
   colorScheme: ColorScheme.light(),
+  progressIndicatorTheme: ProgressIndicatorThemeData(color: Colors.black),
   appBarTheme: AppBarTheme(
     // backgroundColor: Color(0xFFF6F7F9),
     // centerTitle: true,
@@ -166,4 +167,5 @@ ThemeData lightTheme = ThemeData(
   //   ),
   // ),
   splashFactory: NoSplash.splashFactory,
+  tabBarTheme: TabBarThemeData(indicatorColor: Colors.black),
 );
