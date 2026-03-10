@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (savedEmail == null || savedPassword == null) {
       setState(() {
-        errorMassage = 'No account found please register first';
+        errorMassage = 'You don\'t have an account register first';
         isLoading = false;
       });
       return;

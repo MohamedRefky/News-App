@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/data/remote_data/api_config.dart';
 import 'package:news_app/core/data/remote_data/api_servise.dart';
+import 'package:news_app/core/enums/request_status_enums.dart';
+
 import 'models/news_article_model.dart';
 
 class HomeControlle with ChangeNotifier {
   List<NewsArticleModel> newsTopHeadlineList = [];
   List<NewsArticleModel> newsTopEverythingList = [];
   ApiServise apiServise = ApiServise();
-  bool topHeadlineLoading = true;
-  bool everythingLoading = true;
+
+  RequestStatusEnum everyThingStatus = RequestStatusEnum.loading;
+  RequestStatusEnum topHeadlineStatus = RequestStatusEnum.loading;
+  //bool topHeadlineLoading = true;
+
   String? errorMessage;
 
   HomeControlle() {
@@ -25,10 +30,10 @@ class HomeControlle with ChangeNotifier {
       newsTopHeadlineList = (result['articles'] as List)
           .map((e) => NewsArticleModel.fromJson(e))
           .toList();
-      topHeadlineLoading = false;
+      topHeadlineStatus = RequestStatusEnum.loaded;
       errorMessage = null;
     } catch (e) {
-      topHeadlineLoading = false;
+     topHeadlineStatus = RequestStatusEnum.error;
       errorMessage = e.toString();
     }
     notifyListeners();
@@ -44,10 +49,10 @@ class HomeControlle with ChangeNotifier {
       newsTopEverythingList = (result['articles'] as List)
           .map((e) => NewsArticleModel.fromJson(e))
           .toList();
-      everythingLoading = false;
+      everyThingStatus = RequestStatusEnum.loaded;
       errorMessage = null;
     } catch (e) {
-      everythingLoading = false;
+      everyThingStatus = RequestStatusEnum.error;
       errorMessage = e.toString();
     }
     notifyListeners();
