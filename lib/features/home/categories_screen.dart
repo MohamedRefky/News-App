@@ -1,10 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:news_app/core/extension/date_time_extension.dart';
 import 'package:news_app/core/themes/light_color.dart';
-import 'package:news_app/core/widgets/custom_cached_network_image.dart';
-import 'package:news_app/core/widgets/custom_svg_picture.dart';
 import 'package:news_app/features/home/components/news_item.dart';
 import 'package:news_app/features/home/controller/home_controller.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +57,7 @@ class CategoriesScreen extends StatelessWidget {
                   itemCount: controller.newsTopHeadlineList.length,
                   itemBuilder: (context, index) {
                     final model = controller.newsTopHeadlineList[index];
-                    return NewsItem(model:  model);
+                    return NewsItem(model: model);
                   },
                 ),
               ),

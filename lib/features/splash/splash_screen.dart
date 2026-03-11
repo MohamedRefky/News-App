@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/features/auth/login_screen.dart';
-import 'package:news_app/features/home/home_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
 import 'package:news_app/features/onboarding/onboarding_screen.dart';
 

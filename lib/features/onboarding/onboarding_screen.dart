@@ -11,7 +11,7 @@ class OnboardingSceen extends StatelessWidget {
   const OnboardingSceen({super.key});
 
 
- _onFinish(context) async {
+ Future<void> _onFinish(context) async {
     await PreferencesManager().setBool('onboarding_complete', true);
     Navigator.push(
       context,
