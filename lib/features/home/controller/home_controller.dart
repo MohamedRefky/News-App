@@ -5,7 +5,7 @@ import 'package:news_app/core/enums/request_status_enums.dart';
 
 import '../models/news_article_model.dart';
 
-class HomeControlle with ChangeNotifier {
+class HomeController with ChangeNotifier {
   List<NewsArticleModel> newsTopHeadlineList = [];
   List<NewsArticleModel> newsTopEverythingList = [];
   ApiServise apiServise = ApiServise();
@@ -16,7 +16,7 @@ class HomeControlle with ChangeNotifier {
   String? errorMessage;
   String? selectedCategory = 'General';
 
-  HomeControlle() {
+  HomeController() {
     geTopHeadline();
     geTopEverything();
   }

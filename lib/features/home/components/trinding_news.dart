@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
 import 'package:news_app/core/extension/date_time_extension.dart';
 import 'package:news_app/core/widgets/custom_cached_network_image.dart';
-import 'package:news_app/features/home/controller/home_controlle.dart';
+import 'package:news_app/features/home/controller/home_controller.dart';
 import 'package:provider/provider.dart';
 
 import 'trinding_news_shimmer.dart';
@@ -37,8 +37,8 @@ class TrindingNews extends StatelessWidget {
                   ViewallComponent(title: 'Trending News', onTap: () {}),
                   SizedBox(
                     height: 140,
-                    child: Consumer<HomeControlle>(
-                      builder: (BuildContext context, HomeControlle controller, Widget? child) {
+                    child: Consumer<HomeController>(
+                      builder: (BuildContext context, HomeController controller, Widget? child) {
                         switch (controller.everyThingStatus) {
                           case RequestStatusEnum.loading:
                             return TrindingNewsShimmer();

@@ -1,38 +1,27 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:news_app/core/extension/date_time_extension.dart';
 import 'package:news_app/core/themes/light_color.dart';
-import 'package:news_app/features/home/categories_screen.dart';
+import 'package:news_app/core/widgets/custom_cached_network_image.dart';
+import 'package:news_app/core/widgets/custom_svg_picture.dart';
+import 'package:news_app/features/home/components/news_item.dart';
 import 'package:news_app/features/home/controller/home_controller.dart';
 import 'package:provider/provider.dart';
 
-import 'viewall_component.dart';
-
-class CategoriesList extends StatelessWidget {
-  CategoriesList({super.key});
+class CategoriesScreen extends StatelessWidget {
+  CategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Consumer<HomeController>(
+    return Scaffold(
+      appBar: AppBar(title: const Text('Categories')),
+      body: Consumer<HomeController>(
         builder: (BuildContext context, HomeController controller, Widget? child) {
           return Column(
             children: [
-              ViewallComponent(
-                title: 'Categories',
-                titleColor: Color(0xFF141414),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider.value(
-                        value: controller,
-                        child: CategoriesScreen(),
-                      ),
-                    ),
-                  );
-                },
-              ),
               Padding(
-                padding: const EdgeInsets.only(left: 16, bottom: 20, right: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                 child: SizedBox(
                   height: 35,
                   child: ListView.separated(
@@ -66,6 +55,15 @@ class CategoriesList extends StatelessWidget {
                       );
                     },
                   ),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: controller.newsTopHeadlineList.length,
+                  itemBuilder: (context, index) {
+                    final model = controller.newsTopHeadlineList[index];
+                    return NewsItem(model:  model);
+                  },
                 ),
               ),
             ],

@@ -9,10 +9,10 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(),
   progressIndicatorTheme: ProgressIndicatorThemeData(color: LightColor.primaryColor),
   appBarTheme: AppBarTheme(
-    // backgroundColor: Color(0xFFF6F7F9),
-    // centerTitle: true,
-    // titleTextStyle: TextStyle(color: Color(0xFF161F1B), fontSize: 20),
-    // iconTheme: IconThemeData(color: Color(0xFF161F1B)),
+    backgroundColor: Color(0xFFFFFFFF),
+    centerTitle: true,
+    titleTextStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 16, color: Color(0xFF141414)),
+    iconTheme: IconThemeData(color: Color(0xFF000000)),
   ),
 
   // switchTheme: SwitchThemeData(
@@ -129,11 +129,7 @@ ThemeData lightTheme = ThemeData(
     filled: true,
     fillColor: Color(0xFFFFFFFF),
 
-    hintStyle: TextStyle(
-      color: Color(0xFF363636),
-      fontSize: 16,
-      fontWeight: FontWeight.w400,
-    ),
+    hintStyle: TextStyle(color: Color(0xFF363636), fontSize: 16, fontWeight: FontWeight.w400),
   ),
   // iconTheme: IconThemeData(color: Color(0xFF161F1B), size: 24),
   // dividerTheme: DividerThemeData(color: Color(0xFFD1DAD6), thickness: 1),
