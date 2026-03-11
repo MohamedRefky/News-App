@@ -15,11 +15,7 @@ class CategoriesList extends StatelessWidget {
         builder: (BuildContext context, HomeControlle controller, Widget? child) {
           return Column(
             children: [
-              ViewallComponent(
-                title: 'Categories',
-                titleColor: Color(0xFF141414),
-                onTap: () {},
-              ),
+              ViewallComponent(title: 'Categories', titleColor: Color(0xFF141414), onTap: () {}),
               Padding(
                 padding: const EdgeInsets.only(left: 16, bottom: 20, right: 16),
                 child: SizedBox(
@@ -63,9 +59,10 @@ class CategoriesList extends StatelessWidget {
       ),
     );
   }
+
   final List<String> category = [
-    'Technology',
     'General',
+    'Technology',
     'Sports',
     'Entertainment',
     'Business',

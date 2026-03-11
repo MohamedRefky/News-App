@@ -14,7 +14,7 @@ class HomeControlle with ChangeNotifier {
   RequestStatusEnum topHeadlineStatus = RequestStatusEnum.loading;
 
   String? errorMessage;
-  String? selectedCategory;
+  String? selectedCategory = 'General';
 
   HomeControlle() {
     geTopHeadline();
@@ -22,6 +22,8 @@ class HomeControlle with ChangeNotifier {
   }
   void geTopHeadline({String? category}) async {
     try {
+      topHeadlineStatus = RequestStatusEnum.loading;
+      notifyListeners();
       Map<String, dynamic> result = await apiServise.get(
         ApiConfig.topHeadlines,
         params: {'country': 'us', 'category': selectedCategory},
@@ -59,7 +61,7 @@ class HomeControlle with ChangeNotifier {
 
   void updateSelectCategory(String category) {
     selectedCategory = category;
-    // geTopHeadline(category: selectedCategory);
+    geTopHeadline(category: selectedCategory);
     notifyListeners();
   }
 }
