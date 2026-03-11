@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
+import 'package:news_app/core/extension/date_time_extension.dart';
+import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/features/home/controller/home_controlle.dart';
 import 'package:provider/provider.dart';
 
+import 'trinding_news_shimmer.dart';
 import 'viewall_component.dart';
 
 class TrindingNews extends StatelessWidget {
@@ -10,57 +13,57 @@ class TrindingNews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 290,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          SizedBox(
-            height: 240,
-            width: double.infinity,
-            child: Image.asset('assets/images/background.png', fit: BoxFit.cover),
-          ),
-          Positioned.fill(
-            top: 45,
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/NEWEST.png',
-                  height: 50,
-                  width: 125,
-                  fit: BoxFit.contain,
-                ),
-                ViewallComponent(title: 'Trending News', onTap: () {  },),
-                SizedBox(
-                  height: 140,
-                  child: Consumer<HomeControlle>(
-                    builder: (BuildContext context, HomeControlle controller, Widget? child) {
-                      switch (controller.everyThingStatus) {
-                        case RequestStatusEnum.loading:
-                          return Center(child: CircularProgressIndicator());
-                        case RequestStatusEnum.error:
-                          return Center(child: Text(controller.errorMessage!));
-                        case RequestStatusEnum.loaded:
-                          return ListView.separated(
-                            padding: const EdgeInsets.only(left: 16),
-                            scrollDirection: Axis.horizontal,
-                            separatorBuilder: (context, index) => SizedBox(width: 12),
-                            itemCount: controller.newsTopEverythingList.take(7).length,
-                            itemBuilder: (context, index) {
-                              final model = controller.newsTopEverythingList[index];
-                              if (controller.newsTopEverythingList[index].urlToImage != null) {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: 290,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            SizedBox(
+              height: 240,
+              width: double.infinity,
+              child: Image.asset('assets/images/background.png', fit: BoxFit.cover),
+            ),
+            Positioned.fill(
+              top: 45,
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/NEWEST.png',
+                    height: 50,
+                    width: 125,
+                    fit: BoxFit.contain,
+                  ),
+                  ViewallComponent(title: 'Trending News', onTap: () {}),
+                  SizedBox(
+                    height: 140,
+                    child: Consumer<HomeControlle>(
+                      builder: (BuildContext context, HomeControlle controller, Widget? child) {
+                        switch (controller.everyThingStatus) {
+                          case RequestStatusEnum.loading:
+                            return TrindingNewsShimmer();
+                          case RequestStatusEnum.error:
+                            return Center(child: Text(controller.errorMessage!));
+                          case RequestStatusEnum.loaded:
+                            return ListView.separated(
+                              padding: const EdgeInsets.only(left: 16),
+                              scrollDirection: Axis.horizontal,
+                              separatorBuilder: (context, index) => SizedBox(width: 12),
+                              itemCount: controller.newsTopEverythingList.take(7).length,
+                              itemBuilder: (context, index) {
+                                final model = controller.newsTopEverythingList[index];
                                 return SizedBox(
                                   width: 240,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
                                     child: Stack(
                                       children: [
-                                        Image.network(
-                                          model.urlToImage!,
-                                          fit: BoxFit.cover,
-                                          width: 240,
-                                          height: 140,
-                                        ),
+                                        if (model.urlToImage != null)
+                                          CustomCachedNetworkImage(
+                                            imagePath: model.urlToImage ?? '',
+                                            width: 240,
+                                            height: 140,
+                                          ),
                                         Positioned.fill(
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -99,10 +102,12 @@ class TrindingNews extends StatelessWidget {
                                                   Expanded(
                                                     child: Row(
                                                       children: [
-                                                        CircleAvatar(
-                                                          radius: 12,
-                                                          backgroundImage: NetworkImage(
-                                                            model.urlToImage ?? '',
+                                                        ClipRRect(
+                                                          borderRadius: BorderRadius.circular(50),
+                                                          child: CustomCachedNetworkImage(
+                                                            imagePath: model.urlToImage ?? '',
+                                                            width: 20,
+                                                            height: 20,
                                                           ),
                                                         ),
                                                         SizedBox(width: 6),
@@ -122,7 +127,7 @@ class TrindingNews extends StatelessWidget {
                                                     ),
                                                   ),
                                                   Text(
-                                                    formatDateTime(model.publishedAt),
+                                                    model.publishedAt.formatDateTime(),
                                                     style: TextStyle(
                                                       color: Color(0xFFFFFCFC),
                                                       fontSize: 14,
@@ -138,33 +143,18 @@ class TrindingNews extends StatelessWidget {
                                     ),
                                   ),
                                 );
-                              }
-                              return null;
-                            },
-                          );
-                      }
-                    },
+                              },
+                            );
+                        }
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
-  }
-
-  String formatDateTime(String? date) {
-    if (date == null) return '';
-
-    final deff = DateTime.now().difference(DateTime.parse(date));
-
-    if (deff.inMinutes < 60) {
-      return '${deff.inMinutes} minutes ago';
-    } else if (deff.inHours < 24) {
-      return '${deff.inHours} hours ago';
-    } else {
-      return '${deff.inDays} days ago';
-    }
   }
 }

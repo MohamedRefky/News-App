@@ -12,7 +12,6 @@ class HomeControlle with ChangeNotifier {
 
   RequestStatusEnum everyThingStatus = RequestStatusEnum.loading;
   RequestStatusEnum topHeadlineStatus = RequestStatusEnum.loading;
-  //bool topHeadlineLoading = true;
 
   String? errorMessage;
   String? selectedCategory;
@@ -25,9 +24,8 @@ class HomeControlle with ChangeNotifier {
     try {
       Map<String, dynamic> result = await apiServise.get(
         ApiConfig.topHeadlines,
-        params: {'country': 'us'},
+        params: {'country': 'us', 'category': selectedCategory},
       );
-
       newsTopHeadlineList = (result['articles'] as List)
           .map((e) => NewsArticleModel.fromJson(e))
           .toList();
@@ -61,7 +59,7 @@ class HomeControlle with ChangeNotifier {
 
   void updateSelectCategory(String category) {
     selectedCategory = category;
-   // geTopHeadline(category: selectedCategory);
+    // geTopHeadline(category: selectedCategory);
     notifyListeners();
   }
 }
