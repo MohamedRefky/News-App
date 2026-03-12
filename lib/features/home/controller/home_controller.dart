@@ -13,7 +13,7 @@ class HomeController with ChangeNotifier {
   String? errorMessage;
   String? selectedCategory;
 
-  final NewsRepository newsRepository ;
+  final BaseNewsRepository newsRepository ;
 
   HomeController(this.newsRepository) {
     geTopHeadline();
