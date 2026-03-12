@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
 import 'package:news_app/core/extension/date_time_extension.dart';
 import 'package:news_app/core/widgets/custom_cached_network_image.dart';
@@ -15,28 +16,27 @@ class TrindingNews extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 290,
+        height: AppSizes.h280,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
             SizedBox(
-              height: 240,
+              height: AppSizes.h240,
               width: double.infinity,
               child: Image.asset('assets/images/background.png', fit: BoxFit.cover),
             ),
             Positioned.fill(
-              top: 45,
+              top: AppSizes.h45,
               child: Column(
                 children: [
                   Image.asset(
                     'assets/images/NEWEST.png',
-                    height: 50,
-                    width: 125,
+                    height: AppSizes.h50,
+                    width: AppSizes.w125,
                     fit: BoxFit.contain,
                   ),
                   ViewallComponent(title: 'Trending News', onTap: () {}),
-                  SizedBox(
-                    height: 140,
+                  Expanded(
                     child: Consumer<HomeController>(
                       builder: (BuildContext context, HomeController controller, Widget? child) {
                         switch (controller.everyThingStatus) {
@@ -46,23 +46,23 @@ class TrindingNews extends StatelessWidget {
                             return Center(child: Text(controller.errorMessage!));
                           case RequestStatusEnum.loaded:
                             return ListView.separated(
-                              padding: const EdgeInsets.only(left: 16),
+                              padding: EdgeInsets.only(left: AppSizes.w16),
                               scrollDirection: Axis.horizontal,
-                              separatorBuilder: (context, index) => SizedBox(width: 12),
+                              separatorBuilder: (context, index) => SizedBox(width: AppSizes.w12),
                               itemCount: controller.newsTopEverythingList.take(7).length,
                               itemBuilder: (context, index) {
                                 final model = controller.newsTopEverythingList[index];
                                 return SizedBox(
-                                  width: 240,
+                                  width: AppSizes.w240,
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(AppSizes.r12),
                                     child: Stack(
                                       children: [
                                         if (model.urlToImage != null)
                                           CustomCachedNetworkImage(
                                             imagePath: model.urlToImage ?? '',
-                                            width: 240,
-                                            height: 140,
+                                            width: AppSizes.w240,
+                                            height: AppSizes.h140,
                                           ),
                                         Positioned.fill(
                                           child: Container(
@@ -79,9 +79,9 @@ class TrindingNews extends StatelessWidget {
                                           ),
                                         ),
                                         Positioned(
-                                          top: 60,
-                                          left: 12,
-                                          right: 12,
+                                          top: AppSizes.h60,
+                                          left: AppSizes.w12,
+                                          right: AppSizes.w12,
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisAlignment: MainAxisAlignment.start,
@@ -90,33 +90,33 @@ class TrindingNews extends StatelessWidget {
                                                 model.title!,
                                                 style: TextStyle(
                                                   color: Color(0xFFFFFCFC),
-                                                  fontSize: 14,
+                                                  fontSize: AppSizes.sp14,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
-                                              SizedBox(height: 6),
+                                              SizedBox(height: AppSizes.h6),
                                               Row(
                                                 children: [
                                                   Expanded(
                                                     child: Row(
                                                       children: [
                                                         ClipRRect(
-                                                          borderRadius: BorderRadius.circular(50),
+                                                          borderRadius: BorderRadius.circular(AppSizes.r50),
                                                           child: CustomCachedNetworkImage(
                                                             imagePath: model.urlToImage ?? '',
-                                                            width: 20,
-                                                            height: 20,
+                                                            width: AppSizes.w20,
+                                                            height: AppSizes.h20,
                                                           ),
                                                         ),
-                                                        SizedBox(width: 6),
+                                                        SizedBox(width: AppSizes.w6),
                                                         Expanded(
                                                           child: Text(
                                                             model.author ?? '',
                                                             style: TextStyle(
                                                               color: Color(0xFFFFFCFC),
-                                                              fontSize: 12,
+                                                              fontSize: AppSizes.sp12,
                                                               fontWeight: FontWeight.w400,
                                                             ),
                                                             maxLines: 1,
@@ -130,7 +130,7 @@ class TrindingNews extends StatelessWidget {
                                                     model.publishedAt.formatDateTime(),
                                                     style: TextStyle(
                                                       color: Color(0xFFFFFCFC),
-                                                      fontSize: 14,
+                                                      fontSize: AppSizes.sp14,
                                                       fontWeight: FontWeight.w400,
                                                     ),
                                                   ),

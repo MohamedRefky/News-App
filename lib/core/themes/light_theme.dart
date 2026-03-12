@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/themes/light_color.dart' show LightColor;
 
 ThemeData lightTheme = ThemeData(
@@ -56,6 +57,7 @@ ThemeData lightTheme = ThemeData(
       backgroundColor: LightColor.primaryColor,
       foregroundColor: Color(0xFFFFFCFC),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      minimumSize: Size.fromHeight(AppSizes.h52),
     ),
   ),
 
