@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/themes/light_color.dart';
 import 'package:news_app/features/home/categories_screen.dart';
 import 'package:news_app/features/home/controller/home_controller.dart';
 import 'package:provider/provider.dart';
-
 import 'viewall_component.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -32,13 +32,17 @@ class CategoriesList extends StatelessWidget {
                 },
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 16, bottom: 20, right: 16),
+                padding: EdgeInsets.only(
+                  left: AppSizes.w16,
+                  bottom: AppSizes.h16,
+                  right: AppSizes.w16,
+                ),
                 child: SizedBox(
-                  height: 35,
+                  height: AppSizes.h35,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: category.length,
-                    separatorBuilder: (context, index) => const SizedBox(width: 12),
+                    separatorBuilder: (context, index) => SizedBox(width: AppSizes.w12),
                     itemBuilder: (context, index) {
                       final isSelected = controller.selectedCategory == category[index];
                       return IntrinsicWidth(
@@ -52,14 +56,14 @@ class CategoriesList extends StatelessWidget {
                                 category[index],
                                 style: TextStyle(
                                   color: Color(0xFF363636),
-                                  fontSize: 16,
+                                  fontSize: AppSizes.sp16,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
                             if (isSelected) ...[
-                              const SizedBox(height: 6),
-                              Container(height: 2, color: LightColor.primaryColor),
+                              SizedBox(height: AppSizes.h6),
+                              Container(height: AppSizes.h2, color: LightColor.primaryColor),
                             ],
                           ],
                         ),

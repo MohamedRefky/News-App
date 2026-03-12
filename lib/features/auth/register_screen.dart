@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/home/home_screen.dart';
@@ -15,8 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final TextEditingController passwordController = TextEditingController();
 
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   String? errorMassage;
@@ -37,15 +37,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     } else {
       await PreferencesManager().setString('user_email', emailController.text);
-      await PreferencesManager().setString(
-        'user_password',
-        passwordController.text,
-      );
+      await PreferencesManager().setString('user_password', passwordController.text);
       await PreferencesManager().setBool('is_logged_in', true);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 
@@ -62,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(AppSizes.r16),
           child: Form(
             key: _formKey,
             child: Center(
@@ -71,19 +65,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(
-                      child: Image.asset('assets/images/logo.png', height: 45),
-                    ),
-                    SizedBox(height: 24),
+                    Center(child: Image.asset('assets/images/logo.png', height: AppSizes.h45)),
+                    SizedBox(height: AppSizes.h24),
                     Text(
                       'Welcome to Newts',
                       style: TextStyle(
                         color: Color(0xFF363636),
-                        fontSize: 20,
+                        fontSize: AppSizes.sp20,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: AppSizes.h24),
                     CustomTextFormField(
                       title: 'Email',
                       hintText: 'refky@gmail.com',
@@ -101,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: AppSizes.h24),
                     CustomTextFormField(
                       title: 'Password',
                       hintText: '*************',
@@ -117,13 +109,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     if (errorMassage != null)
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Text(
-                          errorMassage!,
-                          style: const TextStyle(color: Colors.red),
-                        ),
+                        padding: EdgeInsets.symmetric(vertical: AppSizes.h16),
+                        child: Text(errorMassage!, style: const TextStyle(color: Colors.red)),
                       ),
-                    SizedBox(height: 24),
+                    SizedBox(height: AppSizes.h24),
                     CustomTextFormField(
                       title: 'Confirm Passward',
                       hintText: '*************',
@@ -139,33 +128,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                       obscureText: true,
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: AppSizes.h24),
                     SizedBox(
                       width: double.infinity,
-                      height: 48,
+                      height: AppSizes.h48,
                       child: ElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState?.validate() ?? false) {
                             register();
                           }
                         },
-                        child: isLoading
-                            ? const CircularProgressIndicator()
-                            : Text('Sign Up'),
+                        child: isLoading ? const CircularProgressIndicator() : Text('Sign Up'),
                       ),
                     ),
-                    SizedBox(height: 24),
+                    SizedBox(height: AppSizes.h24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'Have an account ?',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF141414),
-                          ),
+                          style: TextStyle(fontSize: AppSizes.sp14, color: Color(0xFF141414)),
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: AppSizes.w8),
                         TextButton(
                           onPressed: () {
                             Navigator.pop(context);

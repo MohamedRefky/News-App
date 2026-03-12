@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/features/home/repos/news_repository.dart';
 import 'package:provider/provider.dart';
 
 import 'components/categories_list.dart';
@@ -11,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<HomeController>(
-      create: (BuildContext context) => HomeController(),
+      create: (BuildContext context) => HomeController(NewsRepository()),
       child: Consumer<HomeController>(
         builder: (BuildContext context, controller, Widget? child) {
           return Scaffold(

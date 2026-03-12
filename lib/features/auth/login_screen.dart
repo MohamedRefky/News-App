@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/register_screen.dart';
@@ -54,10 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     await PreferencesManager().setBool('is_logged_in', true);
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MainScreen()),
-    );
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
     setState(() {
       isLoading = false;
       errorMassage = null;
@@ -84,19 +82,17 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Center(
-                  child: Image.asset('assets/images/logo.png', height: 45),
-                ),
-                SizedBox(height: 24),
+                Center(child: Image.asset('assets/images/logo.png', height: AppSizes.h45)),
+                SizedBox(height: AppSizes.h24),
                 Text(
                   'Welcome to Newts',
                   style: TextStyle(
                     color: Color(0xFF363636),
-                    fontSize: 20,
+                    fontSize: AppSizes.sp20,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: AppSizes.h24),
                 CustomTextFormField(
                   title: 'Email',
                   hintText: 'refky@gmail.com',
@@ -105,16 +101,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (value.isEmpty || value.trim().isEmpty) {
                       return 'Enter email';
                     }
-                    RegExp emailRegex = RegExp(
-                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                    );
+                    RegExp emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
                     if (!emailRegex.hasMatch(value)) {
                       return 'Enter valid email';
                     }
                     return null;
                   },
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: AppSizes.h24),
                 CustomTextFormField(
                   title: 'Password',
                   hintText: '*************',
@@ -128,43 +122,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 if (errorMassage != null)
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      errorMassage!,
-                      style: const TextStyle(color: Colors.red),
-                    ),
+                    padding: EdgeInsets.symmetric(vertical: AppSizes.h8),
+                    child: Text(errorMassage!, style: const TextStyle(color: Colors.red)),
                   ),
-                SizedBox(height: 24),
+                SizedBox(height: AppSizes.h24),
                 SizedBox(
                   width: double.infinity,
-                  height: 48,
+                  height: AppSizes.h48,
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState?.validate() ?? false) {
                         login();
                       }
                     },
-                    child: isLoading
-                        ? const CircularProgressIndicator()
-                        : Text('Sign In'),
+                    child: isLoading ? const CircularProgressIndicator() : Text('Sign In'),
                   ),
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: AppSizes.h24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Don’t have an account ?',
-                      style: TextStyle(fontSize: 14, color: Color(0xFF141414)),
+                      style: TextStyle(fontSize: AppSizes.sp14, color: Color(0xFF141414)),
                     ),
-                    SizedBox(width: 8),
+                    SizedBox(width: AppSizes.w8),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => RegisterScreen(),
-                          ),
+                          MaterialPageRoute(builder: (context) => RegisterScreen()),
                         );
                       },
                       child: Text('Sign Up'),

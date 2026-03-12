@@ -12,7 +12,11 @@ ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: Color(0xFFFFFFFF),
     centerTitle: true,
-    titleTextStyle: TextStyle(fontWeight: FontWeight.w700, fontSize: 16, color: Color(0xFF141414)),
+    titleTextStyle: TextStyle(
+      fontWeight: FontWeight.w700,
+      fontSize: AppSizes.sp16,
+      color: Color(0xFF141414),
+    ),
     iconTheme: IconThemeData(color: Color(0xFF000000)),
   ),
 
@@ -49,7 +53,7 @@ ThemeData lightTheme = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       foregroundColor: LightColor.primaryColor,
-      textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+      textStyle: TextStyle(fontSize: AppSizes.sp16, fontWeight: FontWeight.w400),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -114,11 +118,11 @@ ThemeData lightTheme = ThemeData(
     // suffixIconColor: Color(0xFF363636),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(color: Color(0xFFFFFFFF), width: 1),
+      borderSide: BorderSide(color: Color(0xFFFFFFFF), width: AppSizes.w1),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(color: Color(0xFFFFFFFF), width: 1),
+      borderSide: BorderSide(color: Color(0xFFFFFFFF), width: AppSizes.w1),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
@@ -126,12 +130,16 @@ ThemeData lightTheme = ThemeData(
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.zero,
-      borderSide: BorderSide(color: Color(0xFFFFFFFF), width: 1),
+      borderSide: BorderSide(color: Color(0xFFFFFFFF), width: AppSizes.w1),
     ),
     filled: true,
     fillColor: Color(0xFFFFFFFF),
 
-    hintStyle: TextStyle(color: Color(0xFF363636), fontSize: 16, fontWeight: FontWeight.w400),
+    hintStyle: TextStyle(
+      color: Color(0xFF363636),
+      fontSize: AppSizes.sp16,
+      fontWeight: FontWeight.w400,
+    ),
   ),
   // iconTheme: IconThemeData(color: Color(0xFF161F1B), size: 24),
   // dividerTheme: DividerThemeData(color: Color(0xFFD1DAD6), thickness: 1),
