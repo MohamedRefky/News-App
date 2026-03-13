@@ -12,7 +12,7 @@ class HomeController extends ChangeNotifier with SafeNotify {
   RequestStatusEnum topHeadlineStatus = RequestStatusEnum.loading;
 
   String? errorMessage;
-  String? selectedCategory;
+  String? selectedCategory = 'General';
 
   final BaseNewsRepository newsRepository;
 

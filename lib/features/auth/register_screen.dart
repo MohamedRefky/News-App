@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
-import 'package:news_app/features/home/home_screen.dart';
+import 'package:news_app/features/main/main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -27,7 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       isLoading = true;
       errorMassage = null;
     });
-    await Future.delayed(const Duration(seconds: 3));
+
     final savedEmail = PreferencesManager().getString('user_email');
 
     if (savedEmail != null && savedEmail == emailController.text.trim()) {
@@ -39,7 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await PreferencesManager().setString('user_email', emailController.text);
       await PreferencesManager().setString('user_password', passwordController.text);
       await PreferencesManager().setBool('is_logged_in', true);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
     }
   }
 

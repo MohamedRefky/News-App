@@ -3,7 +3,6 @@ import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/remote_data/api_servise.dart';
 import 'package:news_app/core/repos/news_repository.dart';
 import 'package:provider/provider.dart';
-
 import 'controller/search_controller.dart';
 
 class SarchScreen extends StatelessWidget {
