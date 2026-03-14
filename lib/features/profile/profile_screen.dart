@@ -1,11 +1,17 @@
 import 'dart:io';
 
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
-import 'package:news_app/features/profile/coustom_list_tile.dart';
+import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/themes/light_color.dart';
+import 'package:news_app/features/auth/login_screen.dart';
+import 'package:news_app/features/profile/custom_list_tile.dart';
 import 'package:provider/provider.dart';
 
+import 'bottom sheet/profile_bottom_sheet.dart';
 import 'controller/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -14,61 +20,115 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ProfileController(),
+      create: (_) => ProfileController()..getUserData(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Profile')),
+        appBar: AppBar(
+         
+          title: const Text('Profile')),
         body: Padding(
           padding: EdgeInsets.symmetric(vertical: AppSizes.h20, horizontal: AppSizes.w16),
           child: Consumer<ProfileController>(
             builder: (BuildContext context, ProfileController controller, Widget? child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-
-                children: [
-                  Center(
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        CircleAvatar(
-                          radius: AppSizes.r70,
-                          backgroundImage: controller.selectedImage == null
-                              ? AssetImage('assets/images/person.png') as ImageProvider
-                              : FileImage(File(controller.selectedImage!.path)),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            showImageSorceDialog(context);
-                          },
-                          child: Container(
-                            height: AppSizes.h40,
-                            width: AppSizes.w40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(AppSizes.r100),
-                              color: Colors.white,
-                            ),
-                            child: Icon(Icons.photo_camera_outlined, size: AppSizes.r26),
+              return SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          CircleAvatar(
+                            radius: AppSizes.r70,
+                            backgroundImage: controller.selectedImage == null
+                                ? AssetImage('assets/images/person.png') as ImageProvider
+                                : FileImage(File(controller.selectedImage!.path)),
                           ),
-                        ),
-                      ],
+                          GestureDetector(
+                            onTap: () async {
+                              showImageSorceDialog(context);
+                            },
+                            child: Container(
+                              height: AppSizes.h40,
+                              width: AppSizes.w40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(AppSizes.r100),
+                                color: Colors.white,
+                              ),
+                              child: Icon(
+                                Icons.photo_camera_outlined,
+                                size: AppSizes.r26,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: AppSizes.h8),
-                  Text("Mohame Refky", style: TextStyle(color: Color(0xFF161F1B), fontSize: 16)),
-                  SizedBox(height: AppSizes.h16),
-                 
-                  CoustomListtile(title: 'Personal Info', leading: 'assets/images/Person_Icon.svg'),
-                  CoustomListtile(title: 'Language', leading: 'assets/images/Language_Icon.svg'),
-                  CoustomListtile(title: 'Country', leading: 'assets/images/flag_icon.svg'),
-                  CoustomListtile(
-                    title: 'Terms & Conditions',
-                    leading: 'assets/images/terms_conditions_Icon.svg',
-                  ),
-                  CoustomListtile(
-                    title: 'Logout',
-                    textColor: Color(0xFFC53030),
-                    leading: 'assets/images/logout_Icon.svg',
-                  ),
-                ],
+                    SizedBox(height: AppSizes.h8),
+                    Text(
+                      PreferencesManager().getString("user_name") ?? '',
+                      style: TextStyle(color: Color(0xFF161F1B), fontSize: 16),
+                    ),
+                    SizedBox(height: AppSizes.h16),
+                    CustomListTile(
+                      title: 'Personal Info',
+                      leading: SvgPicture.asset('assets/images/Person_Icon.svg'),
+                      onTap: () {
+                        showModalBottomSheet(
+                          useSafeArea: true,
+                          isScrollControlled: true,
+                          backgroundColor: Colors.transparent,
+                          context: context,
+                          builder: (context) => ProfileBottomSheet(),
+                        ).then((value) {
+                          controller.getUserData();
+                        });
+                      },
+                    ),
+                    CustomListTile(
+                      title: 'Language',
+                      leading: SvgPicture.asset('assets/images/Language_Icon.svg'),
+                      onTap: () {},
+                    ),
+                    CustomListTile(
+                      title: controller.countryName ?? 'Country',
+                      leading: controller.flagEmoji != null
+                          ? Text(
+                              controller.flagEmoji!,
+                              style: TextStyle(fontSize: 24),
+                            ) 
+                          : SvgPicture.asset('assets/images/flag_icon.svg'),
+                      onTap: () {
+                        showCountryPicker(
+                          context: context,
+                          onSelect: (Country selectedCountry) {
+                            controller.saveCountry(selectedCountry);
+                          },
+                        );
+                      },
+                    ),
+                    CustomListTile(
+                      title: 'Terms & Conditions',
+                      leading: SvgPicture.asset(
+                        'assets/images/terms_conditions_Icon.svg',
+                      ),
+                      onTap: () {},
+                    ),
+                    CustomListTile(
+                      title: 'Logout',
+                      textColor: LightColor.primaryColor,
+                      leading: SvgPicture.asset('assets/images/logout_Icon.svg'),
+                      trailingColor: LightColor.primaryColor,
+                      onTap: () {
+                        PreferencesManager().clear();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                        );
+                      },
+                      withDivider: false,
+                    ),
+                  ],
+                ),
               );
             },
           ),

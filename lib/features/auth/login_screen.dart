@@ -55,7 +55,10 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     await PreferencesManager().setBool('is_logged_in', true);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainScreen()));
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MainScreen()),
+    );
     setState(() {
       isLoading = false;
       errorMassage = null;
@@ -78,87 +81,103 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(child: Image.asset('assets/images/logo.png', height: AppSizes.h45)),
-                SizedBox(height: AppSizes.h24),
-                Text(
-                  'Welcome to Newts',
-                  style: TextStyle(
-                    color: Color(0xFF363636),
-                    fontSize: AppSizes.sp20,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(height: AppSizes.h24),
-                CustomTextFormField(
-                  title: 'Email',
-                  hintText: 'refky@gmail.com',
-                  controller: emailController,
-                  validator: (value) {
-                    if (value.isEmpty || value.trim().isEmpty) {
-                      return 'Enter email';
-                    }
-                    RegExp emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
-                    if (!emailRegex.hasMatch(value)) {
-                      return 'Enter valid email';
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: AppSizes.h24),
-                CustomTextFormField(
-                  title: 'Password',
-                  hintText: '*************',
-                  controller: passwordController,
-                  obscureText: true,
-                  validator: (value) {
-                    if (value.isEmpty || value.trim().isEmpty) {
-                      return 'Enter password';
-                    }
-                  },
-                ),
-                if (errorMassage != null)
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSizes.h8),
-                    child: Text(errorMassage!, style: const TextStyle(color: Colors.red)),
-                  ),
-                SizedBox(height: AppSizes.h24),
-                SizedBox(
-                  width: double.infinity,
-                  height: AppSizes.h48,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        login();
-                      }
-                    },
-                    child: isLoading ? const CircularProgressIndicator() : Text('Sign In'),
-                  ),
-                ),
-                SizedBox(height: AppSizes.h24),
-                Row(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Don’t have an account ?',
-                      style: TextStyle(fontSize: AppSizes.sp14, color: Color(0xFF141414)),
+                    Center(
+                      child: Image.asset('assets/images/logo.png', height: AppSizes.h45),
                     ),
-                    SizedBox(width: AppSizes.w8),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RegisterScreen()),
+                    SizedBox(height: AppSizes.h24),
+                    Text(
+                      'Welcome to Newts',
+                      style: TextStyle(
+                        color: Color(0xFF363636),
+                        fontSize: AppSizes.sp20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(height: AppSizes.h24),
+                    CustomTextFormField(
+                      title: 'Email',
+                      hintText: 'refky@gmail.com',
+                      controller: emailController,
+                      validator: (value) {
+                        if (value.isEmpty || value.trim().isEmpty) {
+                          return 'Enter email';
+                        }
+                        RegExp emailRegex = RegExp(
+                          r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
                         );
+                        if (!emailRegex.hasMatch(value)) {
+                          return 'Enter valid email';
+                        }
+                        return null;
                       },
-                      child: Text('Sign Up'),
+                    ),
+                    SizedBox(height: AppSizes.h24),
+                    CustomTextFormField(
+                      title: 'Password',
+                      hintText: '*************',
+                      controller: passwordController,
+                      obscureText: true,
+                      validator: (value) {
+                        if (value.isEmpty || value.trim().isEmpty) {
+                          return 'Enter password';
+                        }
+                      },
+                    ),
+                    if (errorMassage != null)
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: AppSizes.h8),
+                        child: Text(
+                          errorMassage!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    SizedBox(height: AppSizes.h24),
+                    SizedBox(
+                      width: double.infinity,
+                      height: AppSizes.h48,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            login();
+                          }
+                        },
+                        child: isLoading
+                            ? const CircularProgressIndicator()
+                            : Text('Sign In'),
+                      ),
+                    ),
+                    SizedBox(height: AppSizes.h24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don’t have an account ?',
+                          style: TextStyle(
+                            fontSize: AppSizes.sp14,
+                            color: Color(0xFF141414),
+                          ),
+                        ),
+                        SizedBox(width: AppSizes.w8),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => RegisterScreen()),
+                            );
+                          },
+                          child: Text('Sign Up'),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

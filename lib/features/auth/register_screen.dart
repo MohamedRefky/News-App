@@ -13,6 +13,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   final TextEditingController passwordController = TextEditingController();
 
@@ -36,9 +37,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         isLoading = false;
       });
     } else {
+      await PreferencesManager().setString('user_name', nameController.text);
       await PreferencesManager().setString('user_email', emailController.text);
       await PreferencesManager().setString('user_password', passwordController.text);
       await PreferencesManager().setBool('is_logged_in', true);
+      if (!mounted) return;
       Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
     }
   }
@@ -62,10 +65,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Center(child: Image.asset('assets/images/logo.png', height: AppSizes.h45)),
+                    Center(
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        height: AppSizes.h45,
+                      ),
+                    ),
                     SizedBox(height: AppSizes.h24),
                     Text(
                       'Welcome to Newts',
@@ -77,12 +84,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     SizedBox(height: AppSizes.h24),
                     CustomTextFormField(
+                      title: 'User Name',
+                      hintText: 'Mahmoud Refky',
+                      controller: nameController,
+                      validator: (value) {
+                        if (value.trim().isEmpty) {
+                          return 'Enter your name';
+                        }
+              
+                        if (!RegExp(r'^[a-zA-Z\u0600-\u06FF\s]+$').hasMatch(value)) {
+                          return 'Enter valid name';
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: AppSizes.h24),
+                    CustomTextFormField(
                       title: 'Email',
                       hintText: 'refky@gmail.com',
                       controller: emailController,
                       validator: (value) {
                         if (value.isEmpty || value.trim().isEmpty) {
-                          return 'Enter email';
+                          return 'Enter your email';
                         }
                         RegExp emailRegex = RegExp(
                           r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
@@ -103,14 +126,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (value.isEmpty || value.trim().isEmpty) {
                           return 'Confirm your password';
                         }
-
+              
                         return null;
                       },
                     ),
                     if (errorMassage != null)
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: AppSizes.h16),
-                        child: Text(errorMassage!, style: const TextStyle(color: Colors.red)),
+                        child: Text(
+                          errorMassage!,
+                          style: const TextStyle(color: Colors.red),
+                        ),
                       ),
                     SizedBox(height: AppSizes.h24),
                     CustomTextFormField(
@@ -138,7 +164,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             register();
                           }
                         },
-                        child: isLoading ? const CircularProgressIndicator() : Text('Sign Up'),
+                        child: isLoading
+                            ? const CircularProgressIndicator()
+                            : Text('Sign Up'),
                       ),
                     ),
                     SizedBox(height: AppSizes.h24),
@@ -147,7 +175,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         Text(
                           'Have an account ?',
-                          style: TextStyle(fontSize: AppSizes.sp14, color: Color(0xFF141414)),
+                          style: TextStyle(
+                            fontSize: AppSizes.sp14,
+                            color: Color(0xFF141414),
+                          ),
                         ),
                         SizedBox(width: AppSizes.w8),
                         TextButton(
