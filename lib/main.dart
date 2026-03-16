@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/themes/light_theme.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
 
@@ -9,7 +10,7 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   WidgetsFlutterBinding.ensureInitialized();
   await PreferencesManager().init();
-
+  UserRepository().init();
 
   runApp(const MainApp());
 }

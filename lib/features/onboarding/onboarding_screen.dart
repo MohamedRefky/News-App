@@ -11,9 +11,14 @@ import 'controller/onbording_controller.dart';
 class OnboardingSceen extends StatelessWidget {
   const OnboardingSceen({super.key});
 
-  Future<void> _onFinish(context) async {
+  void _onFinish(BuildContext context) async {
     await PreferencesManager().setBool('onboarding_complete', true);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    if (context.mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
   }
 
   @override
@@ -29,21 +34,28 @@ class OnboardingSceen extends StatelessWidget {
                 backgroundColor: Color(0xFFf5f5f5),
                 actions: [
                   Consumer<OnbordingController>(
-                    builder: (BuildContext context, OnbordingController value, Widget? child) {
-                      return value.isLastPage
-                          ? SizedBox()
-                          : TextButton(
-                              onPressed: () {
-                                _onFinish(context);
-                              },
-                              child: Text('Skip', style: TextStyle(fontSize: AppSizes.sp16)),
-                            );
-                    },
+                    builder:
+                        (BuildContext context, OnbordingController value, Widget? child) {
+                          return value.isLastPage
+                              ? SizedBox()
+                              : TextButton(
+                                  onPressed: () {
+                                    _onFinish(context);
+                                  },
+                                  child: Text(
+                                    'Skip',
+                                    style: TextStyle(fontSize: AppSizes.sp16),
+                                  ),
+                                );
+                        },
                   ),
                 ],
               ),
               body: Padding(
-                padding: EdgeInsets.symmetric(horizontal: AppSizes.w16, vertical: AppSizes.h30),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSizes.w16,
+                  vertical: AppSizes.h30,
+                ),
                 child: Column(
                   children: [
                     Expanded(
@@ -52,7 +64,8 @@ class OnboardingSceen extends StatelessWidget {
                         onPageChanged: controller.onPageChanged,
                         itemCount: OnboardingModel.onboardingList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final OnboardingModel model = OnboardingModel.onboardingList[index];
+                          final OnboardingModel model =
+                              OnboardingModel.onboardingList[index];
                           return Column(
                             children: [
                               Image.asset(model.image, fit: BoxFit.fill),
@@ -83,30 +96,40 @@ class OnboardingSceen extends StatelessWidget {
                     ),
 
                     Consumer<OnbordingController>(
-                      builder: (BuildContext context, OnbordingController value, Widget? child) {
-                        return SmoothPageIndicator(
-                          controller: value.pageController,
-                          count: OnboardingModel.onboardingList.length,
-                          effect: SwapEffect(activeDotColor: Color(0xFFC53030)),
-                        );
-                      },
+                      builder:
+                          (
+                            BuildContext context,
+                            OnbordingController value,
+                            Widget? child,
+                          ) {
+                            return SmoothPageIndicator(
+                              controller: value.pageController,
+                              count: OnboardingModel.onboardingList.length,
+                              effect: SwapEffect(activeDotColor: Color(0xFFC53030)),
+                            );
+                          },
                     ),
                     SizedBox(height: AppSizes.h112),
                     Consumer<OnbordingController>(
-                      builder: (BuildContext context, OnbordingController value, Widget? child) {
-                        return ElevatedButton(
-                          onPressed: () {
-                            if (!value.isLastPage) {
-                              controller.nextPage();
-                              Duration(milliseconds: 300);
-                              Curves.easeInOut;
-                            } else {
-                              _onFinish(context);
-                            }
+                      builder:
+                          (
+                            BuildContext context,
+                            OnbordingController value,
+                            Widget? child,
+                          ) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                if (!value.isLastPage) {
+                                  controller.nextPage();
+                                  Duration(milliseconds: 300);
+                                  Curves.easeInOut;
+                                } else {
+                                  _onFinish(context);
+                                }
+                              },
+                              child: Text(value.isLastPage ? 'Get Started' : 'Next'),
+                            );
                           },
-                          child: Text(value.isLastPage ? 'Get Started' : 'Next'),
-                        );
-                      },
                     ),
                   ],
                 ),

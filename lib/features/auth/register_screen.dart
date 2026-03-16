@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/main/main_screen.dart';
 
@@ -29,21 +30,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
       errorMassage = null;
     });
 
-    final savedEmail = PreferencesManager().getString('user_email');
+    final String? error = await UserRepository().singUp(
+      email: emailController.text,
+      password: passwordController.text,
+      userName: nameController.text,
+    );
 
-    if (savedEmail != null && savedEmail == emailController.text.trim()) {
+    if (error != null) {
       setState(() {
-        errorMassage = 'User Already Registered';
         isLoading = false;
       });
-    } else {
-      await PreferencesManager().setString('user_name', nameController.text);
-      await PreferencesManager().setString('user_email', emailController.text);
-      await PreferencesManager().setString('user_password', passwordController.text);
-      await PreferencesManager().setBool('is_logged_in', true);
-      if (!mounted) return;
-      Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+      return;
     }
+    await PreferencesManager().setBool('is_logged_in', true);
+    setState(() {
+      isLoading = false;
+      errorMassage = null;
+    });
+    if (!mounted) return;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
   }
 
   @override
@@ -68,10 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        height: AppSizes.h45,
-                      ),
+                      child: Image.asset('assets/images/logo.png', height: AppSizes.h45),
                     ),
                     SizedBox(height: AppSizes.h24),
                     Text(
@@ -91,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (value.trim().isEmpty) {
                           return 'Enter your name';
                         }
-              
+
                         if (!RegExp(r'^[a-zA-Z\u0600-\u06FF\s]+$').hasMatch(value)) {
                           return 'Enter valid name';
                         }
@@ -126,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (value.isEmpty || value.trim().isEmpty) {
                           return 'Confirm your password';
                         }
-              
+
                         return null;
                       },
                     ),

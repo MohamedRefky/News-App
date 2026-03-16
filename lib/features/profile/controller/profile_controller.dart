@@ -9,7 +9,7 @@ class ProfileController extends ChangeNotifier with SafeNotify {
   String? userName;
   String? countryName;
   String? countryCode;
-String ? flagEmoji;
+  String? flagEmoji;
   void pickImage(ImageSource source) async {
     selectedImage = await ImagePicker().pickImage(source: source);
     safeNotify();
@@ -23,7 +23,7 @@ String ? flagEmoji;
     safeNotify();
   }
 
-  void saveCountry(Country selectedCountry, ) async {
+  void saveCountry(Country selectedCountry) async {
     await PreferencesManager().setString('country_name', selectedCountry.name);
     await PreferencesManager().setString('country_code', selectedCountry.countryCode);
     await PreferencesManager().setString('flag_emoji', selectedCountry.flagEmoji);
@@ -34,3 +34,4 @@ String ? flagEmoji;
     safeNotify();
   }
 }
+

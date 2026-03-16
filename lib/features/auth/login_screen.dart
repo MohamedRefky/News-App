@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/register_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
@@ -14,9 +15,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   String? errorMassage;
@@ -28,33 +27,19 @@ class _LoginScreenState extends State<LoginScreen> {
       errorMassage = null;
     });
     await Future.delayed(const Duration(seconds: 3));
-    final savedEmail = PreferencesManager().getString('user_email');
-    final savedPassword = PreferencesManager().getString('user_password');
-
-    if (savedEmail == null || savedPassword == null) {
+     String? error = UserRepository().login(emailController.text, passwordController.text);
+   
+    if (error != null ) {
       setState(() {
-        errorMassage = 'You don\'t have an account register first';
-        isLoading = false;
-      });
-      return;
-    }
-    if (savedEmail != emailController.text.trim()) {
-      setState(() {
-        errorMassage = 'Invalid Email';
-        isLoading = false;
-      });
-      return;
-    }
-
-    if (savedPassword != passwordController.text.trim()) {
-      setState(() {
-        errorMassage = 'Invalid Password';
+        errorMassage = error;
         isLoading = false;
       });
       return;
     }
 
     await PreferencesManager().setBool('is_logged_in', true);
+    
+    if (!mounted) return;
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => MainScreen()),

@@ -4,6 +4,7 @@ import 'package:news_app/core/data/remote_data/api_servise.dart';
 import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/news%20details/news_details_screen.dart';
 import 'package:provider/provider.dart';
+
 import 'controller/search_controller.dart';
 
 class SarchScreen extends StatelessWidget {

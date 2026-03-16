@@ -51,6 +51,7 @@ class NewsItem extends StatelessWidget {
                           model.urlToImage ?? '',
                           width: AppSizes.w15,
                           height: AppSizes.h15,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       SizedBox(width: AppSizes.w3),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/data/local_data/user_reposatory.dart';
+import 'package:news_app/core/model/user_mdel.dart';
 import 'package:news_app/core/themes/light_color.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 
@@ -23,14 +25,17 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
   }
 
   void _loudeUserData() {
-    emailController.text = PreferencesManager().getString('user_email') ?? '';
-    nameController.text = PreferencesManager().getString('user_name') ?? '';
+    final UseerModel? user = UserRepository().getUser();
+    emailController.text = user?.email ?? '';
+    nameController.text = user?.name ?? '';
   }
 
   void _saveUserData() async {
-    if (formKey.currentState?.validate() ?? false) {
-      await PreferencesManager().setString('user_email', emailController.text.trim());
-      await PreferencesManager().setString('user_name', nameController.text.trim());
+    if (formKey.currentState?.validate() ?? false)  {
+       UserRepository().updateUser(
+        email: emailController.text.trim(),
+        name: nameController.text.trim(),
+      );
       if (!mounted) return;
       Navigator.pop(context);
     }
