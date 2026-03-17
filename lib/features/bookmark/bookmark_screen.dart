@@ -47,7 +47,6 @@ class BookmarkScreen extends StatelessWidget {
         ),
         body: Consumer<BookmarkController>(
           builder: (context, controller, child) {
-            final artical = controller.getArticleFromBookmark(controller.bookmarks.first);
             switch (controller.bookmarksStatus) {
               case RequestStatusEnum.loading:
                 return const Center(child: CircularProgressIndicator());
@@ -65,7 +64,7 @@ class BookmarkScreen extends StatelessWidget {
                       SizedBox(height: AppSizes.h16),
                       ElevatedButton(
                         onPressed: () {
-                          controller.toggleBookmark(artical);
+                          controller.loadBookmarks();
                         },
                         child: const Text('Retry'),
                       ),
