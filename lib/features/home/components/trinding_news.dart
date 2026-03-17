@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
 import 'package:news_app/core/extension/date_time_extension.dart';
+import 'package:news_app/core/widgets/bookmark_button.dart';
 import 'package:news_app/core/widgets/custom_cached_network_image.dart';
 import 'package:news_app/features/home/controller/home_controller.dart';
 import 'package:news_app/features/news%20details/news_details_screen.dart';
 import 'package:provider/provider.dart';
-
 import 'trinding_news_shimmer.dart';
 import 'viewall_component.dart';
 
@@ -67,7 +67,7 @@ class TrindingNews extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                             builder: (BuildContext context) {
-                                              return NewsDetailsScreen( model: model);
+                                              return NewsDetailsScreen(model: model);
                                             },
                                           ),
                                         );
@@ -102,6 +102,16 @@ class TrindingNews extends StatelessWidget {
                                                       ],
                                                     ),
                                                   ),
+                                                ),
+                                              ),
+                                              Positioned(
+                                                top: AppSizes.h8,
+                                                right: AppSizes.w8,
+                                                child: BookmarkButton(
+                                                  article: model,
+                                                  size: 24,
+                                                  activeColor: Colors.white,
+                                                  inactiveColor: Colors.white70,
                                                 ),
                                               ),
                                               Positioned(

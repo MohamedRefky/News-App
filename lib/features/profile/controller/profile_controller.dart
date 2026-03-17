@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/mixins/safe_notify_mixin.dart';
-import 'package:news_app/core/model/user_mdel.dart';
+import 'package:news_app/core/model/user_model.dart';
 
 class ProfileController extends ChangeNotifier with SafeNotify {
   XFile? selectedImage;

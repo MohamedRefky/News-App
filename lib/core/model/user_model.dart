@@ -1,5 +1,5 @@
 import 'package:hive_ce_flutter/adapters.dart';
-part 'user_mdel.g.dart';
+part 'user_model.g.dart';
 @HiveType(typeId: 0)
 class UseerModel {
   UseerModel({

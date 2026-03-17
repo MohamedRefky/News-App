@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/themes/light_theme.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
-
 import 'core/data/local_data/prefrances_maneger.dart';
+import 'features/bookmark/data/bookmark_repository.dart';
 
 void main() async {
   await ScreenUtil.ensureScreenSize();
@@ -12,6 +12,7 @@ void main() async {
   await PreferencesManager().init();
 
   await UserRepository().init();
+  await BookmarkRepository().init();
 
   runApp(const MainApp());
 }

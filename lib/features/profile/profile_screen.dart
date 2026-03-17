@@ -114,7 +114,7 @@ class ProfileScreen extends StatelessWidget {
                       leading: SvgPicture.asset('assets/images/logout_Icon.svg'),
                       trailingColor: LightColor.primaryColor,
                       onTap: () async {
-                        await UserRepository().delete();
+                        //await UserRepository().delete();
                         await PreferencesManager().clear();
                         Navigator.pushReplacement(
                           context,

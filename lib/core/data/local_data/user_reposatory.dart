@@ -1,6 +1,6 @@
 import 'package:hive_ce_flutter/adapters.dart';
 import 'package:news_app/core/constants/constants.dart';
-import 'package:news_app/core/model/user_mdel.dart';
+import 'package:news_app/core/model/user_model.dart';
 
 class UserRepository {
   UserRepository._internal();
