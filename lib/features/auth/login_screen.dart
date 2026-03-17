@@ -18,35 +18,44 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  String? errorMassage;
+  String? errorMessage;
   bool isLoading = false;
 
-  void login() async {
+ void login() async {
     setState(() {
+      errorMessage = null;
       isLoading = true;
-      errorMassage = null;
     });
+
     await Future.delayed(const Duration(seconds: 3));
-     String? error = UserRepository().login(emailController.text, passwordController.text);
-   
-    if (error != null ) {
+
+    final String? error = UserRepository().login(
+      emailController.text,
+      passwordController.text,
+    );
+
+    if (error != null) {
       setState(() {
-        errorMassage = error;
+        errorMessage = error;
         isLoading = false;
       });
       return;
     }
 
-    await PreferencesManager().setBool('is_logged_in', true);
-    
-    if (!mounted) return;
+    await PreferencesManager().setBool("is_logged_in", true);
+
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => MainScreen()),
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return const MainScreen();
+        },
+      ),
     );
+
     setState(() {
+      errorMessage = null;
       isLoading = false;
-      errorMassage = null;
     });
   }
 
@@ -114,11 +123,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         }
                       },
                     ),
-                    if (errorMassage != null)
+                    if (errorMessage != null)
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: AppSizes.h8),
                         child: Text(
-                          errorMassage!,
+                          errorMessage!,
                           style: const TextStyle(color: Colors.red),
                         ),
                       ),

@@ -2,7 +2,9 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/mixins/safe_notify_mixin.dart';
+import 'package:news_app/core/model/user_mdel.dart';
 
 class ProfileController extends ChangeNotifier with SafeNotify {
   XFile? selectedImage;
@@ -16,17 +18,20 @@ class ProfileController extends ChangeNotifier with SafeNotify {
   }
 
   void getUserData() {
-    userName = PreferencesManager().getString('user_name');
-    countryName = PreferencesManager().getString('country_name');
-    countryCode = PreferencesManager().getString('country_code');
-    flagEmoji = PreferencesManager().getString('flag_emoji');
+    final UseerModel? user = UserRepository().getUser();
+    userName = user?.name ?? '';
+    countryName = user?.countryName;
+    countryCode = user?.countryCode;
+    flagEmoji = user?.flagEmoji;
     safeNotify();
   }
 
   void saveCountry(Country selectedCountry) async {
-    await PreferencesManager().setString('country_name', selectedCountry.name);
-    await PreferencesManager().setString('country_code', selectedCountry.countryCode);
-    await PreferencesManager().setString('flag_emoji', selectedCountry.flagEmoji);
+    UserRepository().updateUser(
+      countryName: selectedCountry.name,
+      countryCode: selectedCountry.countryCode,
+      flagEmoji: selectedCountry.flagEmoji,
+    );
     countryName = selectedCountry.name;
     countryCode = selectedCountry.countryCode;
     flagEmoji = selectedCountry.flagEmoji;
@@ -34,4 +39,3 @@ class ProfileController extends ChangeNotifier with SafeNotify {
     safeNotify();
   }
 }
-

@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/themes/light_color.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/profile/custom_list_tile.dart';
@@ -16,15 +17,12 @@ import 'controller/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => ProfileController()..getUserData(),
       child: Scaffold(
-        appBar: AppBar(
-         
-          title: const Text('Profile')),
+        appBar: AppBar(title: const Text('Profile')),
         body: Padding(
           padding: EdgeInsets.symmetric(vertical: AppSizes.h20, horizontal: AppSizes.w16),
           child: Consumer<ProfileController>(
@@ -65,7 +63,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(height: AppSizes.h8),
                     Text(
-                      PreferencesManager().getString("user_name") ?? '',
+                      controller.userName ?? '',
                       style: TextStyle(color: Color(0xFF161F1B), fontSize: 16),
                     ),
                     SizedBox(height: AppSizes.h16),
@@ -92,10 +90,7 @@ class ProfileScreen extends StatelessWidget {
                     CustomListTile(
                       title: controller.countryName ?? 'Country',
                       leading: controller.flagEmoji != null
-                          ? Text(
-                              controller.flagEmoji!,
-                              style: TextStyle(fontSize: 24),
-                            ) 
+                          ? Text(controller.flagEmoji!, style: TextStyle(fontSize: 24))
                           : SvgPicture.asset('assets/images/flag_icon.svg'),
                       onTap: () {
                         showCountryPicker(
@@ -118,8 +113,9 @@ class ProfileScreen extends StatelessWidget {
                       textColor: LightColor.primaryColor,
                       leading: SvgPicture.asset('assets/images/logout_Icon.svg'),
                       trailingColor: LightColor.primaryColor,
-                      onTap: () {
-                        PreferencesManager().clear();
+                      onTap: () async {
+                        await UserRepository().delete();
+                        await PreferencesManager().clear();
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => LoginScreen()),

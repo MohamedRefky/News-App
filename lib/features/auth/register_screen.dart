@@ -21,34 +21,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController confirmPasswordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  String? errorMassage;
+  String? errorMessage;
   bool isLoading = false;
 
   void register() async {
     setState(() {
+      errorMessage = null;
       isLoading = true;
-      errorMassage = null;
     });
 
-    final String? error = await UserRepository().singUp(
+    await Future.delayed(const Duration(seconds: 3));
+
+    final String? error = await UserRepository().signUp(
+      name: nameController.text,
       email: emailController.text,
       password: passwordController.text,
-      userName: nameController.text,
     );
 
     if (error != null) {
       setState(() {
+        errorMessage = error;
         isLoading = false;
       });
       return;
     }
-    await PreferencesManager().setBool('is_logged_in', true);
+    await PreferencesManager().setBool("is_logged_in", true);
+
     setState(() {
       isLoading = false;
-      errorMassage = null;
     });
-    if (!mounted) return;
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen()));
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return const MainScreen();
+        },
+      ),
+    );
   }
 
   @override
@@ -132,11 +142,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         return null;
                       },
                     ),
-                    if (errorMassage != null)
+                    if (errorMessage != null)
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: AppSizes.h16),
                         child: Text(
-                          errorMassage!,
+                          errorMessage!,
                           style: const TextStyle(color: Colors.red),
                         ),
                       ),

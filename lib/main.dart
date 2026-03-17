@@ -10,7 +10,8 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   WidgetsFlutterBinding.ensureInitialized();
   await PreferencesManager().init();
-  UserRepository().init();
+
+  await UserRepository().init();
 
   runApp(const MainApp());
 }

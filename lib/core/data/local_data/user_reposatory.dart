@@ -14,17 +14,15 @@ class UserRepository {
     return _userBox!;
   }
 
-  void init() async {
-    await Hive.initFlutter();
-    if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(UseerModelAdapter());
-    }
-
-    _userBox = await Hive.openBox(Constants.userBox);
+Future<void> init() async {
+  await Hive.initFlutter();
+  if (!Hive.isAdapterRegistered(0)) {
+    Hive.registerAdapter(UseerModelAdapter());
   }
-
+  _userBox = await Hive.openBox(Constants.userBox);
+}
   Future<void> saveUser(UseerModel user) async {
-    userBox.put(Constants.currentUser, user);
+    await userBox.put(Constants.currentUser, user);
   }
 
   UseerModel? getUser() => userBox.get(Constants.currentUser);
@@ -60,25 +58,30 @@ class UserRepository {
 
   String? login(String email, String password) {
     final user = getUser();
+
     if (user == null) {
-      return "No account found please register first";
+      return "No Account Found Please Register First";
     }
+
     if (user.email != email || user.password != password) {
-      return 'Incorrect email or password';
+      return "Incorrect Email or Password";
     }
     return null;
   }
 
-  Future<String?> singUp({
+  Future<String?> signUp({
+    required String name,
     required String email,
     required String password,
-    required String userName,
   }) async {
     final user = getUser();
+
     if (user != null) {
-      return 'User already exists please login' ;
+      return "User Already Exists Please Login";
     }
-    final newUser = UseerModel(email: email, password: password , name: userName);
+
+    final newUser = UseerModel(name: name, email: email, password: password);
+
     await saveUser(newUser);
     return null;
   }
