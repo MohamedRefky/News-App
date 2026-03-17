@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     await Future.delayed(const Duration(seconds: 3));
 
-    final String? error = UserRepository().login(
+    final String? error = await UserRepository().login(
       emailController.text,
       passwordController.text,
     );

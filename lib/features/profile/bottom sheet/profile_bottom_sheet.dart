@@ -31,8 +31,8 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
   }
 
   void _saveUserData() async {
-    if (formKey.currentState?.validate() ?? false)  {
-       UserRepository().updateUser(
+    if (formKey.currentState?.validate() ?? false) {
+      UserRepository().updateUser(
         email: emailController.text.trim(),
         name: nameController.text.trim(),
       );
@@ -83,7 +83,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                   SizedBox(height: AppSizes.h24),
                   CustomTextFormField(
                     title: 'User Name',
-                    hintText: PreferencesManager().getString('user_name') ?? '',
+                    hintText: UserRepository().getUser()?.name ?? '',
                     controller: nameController,
                     validator: (value) {
                       if (value.trim().isEmpty) {
@@ -99,7 +99,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                   SizedBox(height: AppSizes.h24),
                   CustomTextFormField(
                     title: 'Email',
-                    hintText: PreferencesManager().getString('user_email') ?? '',
+                    hintText: UserRepository().getUser()?.email ?? '',
                     controller: emailController,
                     validator: (value) {
                       if (value.isEmpty || value.trim().isEmpty) {
