@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String? errorMessage;
   bool isLoading = false;
 
- void login() async {
+  void login() async {
     setState(() {
       errorMessage = null;
       isLoading = true;
@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     await Future.delayed(const Duration(seconds: 3));
 
-    final String? error = await UserRepository().login(
+    final String? error = UserRepository().login(
       emailController.text,
       passwordController.text,
     );
@@ -45,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
     await PreferencesManager().setBool("is_logged_in", true);
 
     Navigator.pushReplacement(
+   
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {

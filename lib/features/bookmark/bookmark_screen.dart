@@ -4,7 +4,6 @@ import 'package:news_app/core/enums/request_status_enums.dart';
 import 'package:news_app/features/bookmark/controller/bookmark_controller.dart';
 import 'package:news_app/features/home/components/news_item.dart';
 import 'package:provider/provider.dart';
-
 import 'widget/empty_state.dart';
 
 class BookmarkScreen extends StatelessWidget {

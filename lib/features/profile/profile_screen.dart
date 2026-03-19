@@ -6,7 +6,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
-import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/themes/light_color.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/profile/custom_list_tile.dart';
