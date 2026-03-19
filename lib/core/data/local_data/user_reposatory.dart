@@ -6,26 +6,27 @@ class UserRepository {
   UserRepository._internal();
   static final UserRepository _instance = UserRepository._internal();
   factory UserRepository() => _instance;
-  Box<UseerModel>? _userBox;
-  Box<UseerModel> get userBox {
+  Box<UserModel>? _userBox;
+  Box<UserModel> get userBox {
     if (_userBox == null) {
       throw Exception('User box is not initialized.');
     }
     return _userBox!;
   }
 
-Future<void> init() async {
-  await Hive.initFlutter();
-  if (!Hive.isAdapterRegistered(0)) {
-    Hive.registerAdapter(UseerModelAdapter());
+  Future<void> init() async {
+    await Hive.initFlutter();
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(UseerModelAdapter());
+    }
+    _userBox = await Hive.openBox(Constants.userBox);
   }
-  _userBox = await Hive.openBox(Constants.userBox);
-}
-  Future<void> saveUser(UseerModel user) async {
+
+  Future<void> saveUser(UserModel user) async {
     await userBox.put(Constants.currentUser, user);
   }
 
-  UseerModel? getUser() => userBox.get(Constants.currentUser);
+  UserModel? getUser() => userBox.get(Constants.currentUser);
   void updateUser({
     String? name,
     String? email,
@@ -34,7 +35,7 @@ Future<void> init() async {
     String? countryCode,
     String? flagEmoji,
   }) async {
-    final UseerModel? user = getUser();
+    final UserModel? user = getUser();
     if (user != null) {
       final updatedUser = user.copyWith(
         name: name,
@@ -75,12 +76,11 @@ Future<void> init() async {
     required String password,
   }) async {
     final user = getUser();
-
-    if (user != null) {
+    if (user != null && user.email == email) {
       return "User Already Exists Please Login";
     }
 
-    final newUser = UseerModel(name: name, email: email, password: password);
+    final newUser = UserModel(name: name, email: email, password: password);
 
     await saveUser(newUser);
     return null;

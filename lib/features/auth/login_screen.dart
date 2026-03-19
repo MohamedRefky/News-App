@@ -41,11 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       return;
     }
-
     await PreferencesManager().setBool("is_logged_in", true);
 
     Navigator.pushReplacement(
-   
       context,
       MaterialPageRoute(
         builder: (BuildContext context) {
@@ -100,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       hintText: 'refky@gmail.com',
                       controller: emailController,
                       validator: (value) {
-                        if (value.isEmpty || value.trim().isEmpty) {
+                        if (value.trim().isEmpty || value.trim().isEmpty) {
                           return 'Enter email';
                         }
                         RegExp emailRegex = RegExp(

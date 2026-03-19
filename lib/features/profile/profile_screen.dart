@@ -2,30 +2,30 @@ import 'dart:io';
 
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/themes/light_color.dart';
 import 'package:news_app/features/auth/login_screen.dart';
+import 'package:news_app/features/profile/cubit/profile_cubit.dart';
 import 'package:news_app/features/profile/custom_list_tile.dart';
-import 'package:provider/provider.dart';
-
 import 'bottom sheet/profile_bottom_sheet.dart';
-import 'controller/profile_controller.dart';
+import 'cubit/profile_state.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ProfileController()..getUserData(),
+    return BlocProvider(
+      create: (_) => ProfileCubit()..getUserData(),
       child: Scaffold(
         appBar: AppBar(title: const Text('Profile')),
         body: Padding(
           padding: EdgeInsets.symmetric(vertical: AppSizes.h20, horizontal: AppSizes.w16),
-          child: Consumer<ProfileController>(
-            builder: (BuildContext context, ProfileController controller, Widget? child) {
+          child: BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (BuildContext context, state) {
               return SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -36,9 +36,9 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: AppSizes.r70,
-                            backgroundImage: controller.selectedImage == null
+                            backgroundImage: state.selectedImage == null
                                 ? AssetImage('assets/images/person.png') as ImageProvider
-                                : FileImage(File(controller.selectedImage!.path)),
+                                : FileImage(File(state.selectedImage!.path)),
                           ),
                           GestureDetector(
                             onTap: () async {
@@ -62,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(height: AppSizes.h8),
                     Text(
-                      controller.userName ?? '',
+                      state.userName ?? '',
                       style: TextStyle(color: Color(0xFF161F1B), fontSize: 16),
                     ),
                     SizedBox(height: AppSizes.h16),
@@ -77,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                           context: context,
                           builder: (context) => ProfileBottomSheet(),
                         ).then((value) {
-                          controller.getUserData();
+                          context.read<ProfileCubit>().getUserData();
                         });
                       },
                     ),
@@ -87,15 +87,15 @@ class ProfileScreen extends StatelessWidget {
                       onTap: () {},
                     ),
                     CustomListTile(
-                      title: controller.countryName ?? 'Country',
-                      leading: controller.flagEmoji != null
-                          ? Text(controller.flagEmoji!, style: TextStyle(fontSize: 24))
+                      title: state.countryName ?? 'Country',
+                      leading: state.flagEmoji != null
+                          ? Text(state.flagEmoji!, style: TextStyle(fontSize: 24))
                           : SvgPicture.asset('assets/images/flag_icon.svg'),
                       onTap: () {
                         showCountryPicker(
                           context: context,
                           onSelect: (Country selectedCountry) {
-                            controller.saveCountry(selectedCountry);
+                            context.read<ProfileCubit>().saveCountry(selectedCountry);
                           },
                         );
                       },
@@ -134,7 +134,6 @@ class ProfileScreen extends StatelessWidget {
 }
 
 void showImageSorceDialog(BuildContext context) {
-  final controller = context.read<ProfileController>();
   showDialog(
     context: context,
     builder: (context) {
@@ -151,7 +150,7 @@ void showImageSorceDialog(BuildContext context) {
             ),
             onPressed: () {
               Navigator.pop(context);
-              controller.pickImage(ImageSource.camera);
+              context.read<ProfileCubit>().pickImage(ImageSource.camera);
             },
           ),
           SimpleDialogOption(
@@ -164,7 +163,7 @@ void showImageSorceDialog(BuildContext context) {
             ),
             onPressed: () {
               Navigator.pop(context);
-              controller.pickImage(ImageSource.gallery);
+              context.read<ProfileCubit>().pickImage(ImageSource.gallery);
             },
           ),
         ],
