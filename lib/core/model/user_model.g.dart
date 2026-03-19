@@ -6,17 +6,17 @@ part of 'user_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UseerModelAdapter extends TypeAdapter<UseerModel> {
+class UseerModelAdapter extends TypeAdapter<UserModel> {
   @override
   final typeId = 0;
 
   @override
-  UseerModel read(BinaryReader reader) {
+  UserModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return UseerModel(
+    return UserModel(
       name: fields[0] as String?,
       email: fields[1] as String?,
       password: fields[3] as String?,
@@ -28,7 +28,8 @@ class UseerModelAdapter extends TypeAdapter<UseerModel> {
   }
 
   @override
-  void write(BinaryWriter writer, UseerModel obj) {
+
+  void write(BinaryWriter writer, UserModel obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)

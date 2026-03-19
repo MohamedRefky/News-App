@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/themes/light_color.dart';
 import 'package:news_app/features/home/categories_screen.dart';
-import 'package:news_app/features/home/controller/home_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:news_app/features/home/cubit/home_cubit.dart';
+import 'package:news_app/features/home/cubit/home_state.dart';
+
 import 'viewall_component.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -12,8 +14,8 @@ class CategoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Consumer<HomeController>(
-        builder: (BuildContext context, HomeController controller, Widget? child) {
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (BuildContext context, state) {
           return Column(
             children: [
               ViewallComponent(
@@ -23,8 +25,8 @@ class CategoriesList extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider.value(
-                        value: controller,
+                      builder: (context) => BlocProvider.value(
+                        value: context.read<HomeCubit>(),
                         child: CategoriesScreen(),
                       ),
                     ),
@@ -44,13 +46,15 @@ class CategoriesList extends StatelessWidget {
                     itemCount: category.length,
                     separatorBuilder: (context, index) => SizedBox(width: AppSizes.w12),
                     itemBuilder: (context, index) {
-                      final isSelected = controller.selectedCategory == category[index];
+                      final isSelected = state.selectedCategory == category[index];
                       return IntrinsicWidth(
                         child: Column(
                           children: [
                             GestureDetector(
                               onTap: () {
-                                controller.updateSelectCategory(category[index]);
+                                context.read<HomeCubit>().updateSelectCategory(
+                                  category[index],
+                                );
                               },
                               child: Text(
                                 category[index],
@@ -63,7 +67,10 @@ class CategoriesList extends StatelessWidget {
                             ),
                             if (isSelected) ...[
                               SizedBox(height: AppSizes.h6),
-                              Container(height: AppSizes.h2, color: LightColor.primaryColor),
+                              Container(
+                                height: AppSizes.h2,
+                                color: LightColor.primaryColor,
+                              ),
                             ],
                           ],
                         ),

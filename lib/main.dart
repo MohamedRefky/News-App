@@ -10,7 +10,6 @@ void main() async {
   await ScreenUtil.ensureScreenSize();
   WidgetsFlutterBinding.ensureInitialized();
   await PreferencesManager().init();
-
   await UserRepository().init();
   await BookmarkRepository().init();
 

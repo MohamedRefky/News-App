@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
-import 'package:news_app/features/home/controller/home_controller.dart';
-import 'package:provider/provider.dart';
-
+import 'package:news_app/features/home/cubit/home_cubit.dart';
+import 'package:news_app/features/home/cubit/home_state.dart';
 import 'news_item.dart';
 import 'top_headline_shimmer.dart';
 
@@ -11,18 +11,18 @@ class TopHeadline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HomeController>(
-      builder: (BuildContext context, HomeController controller, Widget? child) {
-        switch (controller.topHeadlineStatus) {
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (BuildContext context, state) {
+        switch (state.topHeadlineStatus) {
           case RequestStatusEnum.loading:
             return TopHeadlineShimmer();
           case RequestStatusEnum.error:
-            return SliverToBoxAdapter(child: Center(child: Text(controller.errorMessage!)));
+            return SliverToBoxAdapter(child: Center(child: Text(state.errorMessage!)));
           case RequestStatusEnum.loaded:
             return SliverList.builder(
-              itemCount: controller.newsTopHeadlineList.length,
+              itemCount: state.newsTopHeadlineList.length,
               itemBuilder: (context, index) {
-                final model = controller.newsTopHeadlineList[index];
+                final model = state.newsTopHeadlineList[index];
                 return NewsItem(model: model);
               },
             );

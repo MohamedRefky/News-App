@@ -24,7 +24,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
   }
 
   void _loudeUserData() {
-    final UseerModel? user = UserRepository().getUser();
+    final UserModel? user = UserRepository().getUser();
     emailController.text = user?.email ?? '';
     nameController.text = user?.name ?? '';
   }

@@ -1,8 +1,8 @@
 import 'package:hive_ce_flutter/adapters.dart';
 part 'user_model.g.dart';
 @HiveType(typeId: 0)
-class UseerModel {
-  UseerModel({
+class UserModel {
+  UserModel({
     required this.name,
     required this.email,
      this.password,
@@ -26,8 +26,8 @@ class UseerModel {
   @HiveField(6)
   String? flagEmoji;
 
-  factory UseerModel.fromMap(Map<String, dynamic> map) {
-    return UseerModel(
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
       name: map['name'] as String?,
       email: map['email'] as String?,
       photoUrl: map['photoUrl'] as String?,
@@ -38,7 +38,7 @@ class UseerModel {
     );
   }
 
-  UseerModel copyWith({
+  UserModel copyWith({
     String? name,
     String? email,
     String? photoUrl,
@@ -47,7 +47,7 @@ class UseerModel {
     String? countryCode,
     String? flagEmoji,
   }) {
-    return UseerModel(
+    return UserModel(
       name: name ?? this.name,
       email: email ?? this.email,
       photoUrl: photoUrl ?? this.photoUrl,
