@@ -20,7 +20,7 @@ class HomeState extends Equatable {
 
   final String? errorMessage;
   final String? selectedCategory;
-   
+
   HomeState copyWith({
     String? errorMessage,
     String? selectedCategory,
@@ -49,6 +49,7 @@ class HomeState extends Equatable {
     topHeadlineStatus,
   ];
 }
+
 class HomeInitial extends HomeState {
   const HomeInitial();
 }

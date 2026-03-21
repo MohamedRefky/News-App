@@ -1,15 +1,18 @@
 import 'package:hive_ce_flutter/adapters.dart';
 part 'user_model.g.dart';
+
 @HiveType(typeId: 0)
 class UserModel {
   UserModel({
     required this.name,
-    required this.email,
-     this.password,
+    this.email,
+    this.password,
     this.photoUrl,
     this.countryName,
     this.countryCode,
     this.flagEmoji,
+    this.accessToken,
+    this.refreshToken,
   });
   @HiveField(0)
   String? name;
@@ -26,6 +29,9 @@ class UserModel {
   @HiveField(6)
   String? flagEmoji;
 
+  String? accessToken;
+  String? refreshToken;
+
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       name: map['name'] as String?,
@@ -35,6 +41,13 @@ class UserModel {
       countryName: map['countryName'] as String?,
       countryCode: map['countryCode'] as String?,
       flagEmoji: map['flagEmoji'] as String?,
+    );
+  }
+  factory UserModel.fromAuthResponse(Map<String, dynamic> json, String username) {
+    return UserModel(
+      name: username,
+      accessToken: json['accessToken'],
+      refreshToken: json['refreshToken'],
     );
   }
 
@@ -56,5 +69,10 @@ class UserModel {
       countryCode: countryCode ?? this.countryCode,
       flagEmoji: flagEmoji ?? this.flagEmoji,
     );
+  }
+
+  @override
+  String toString() {
+    return 'UserModel(name: $name, email: $email, photoUrl: $photoUrl, password: $password, countryName: $countryName, countryCode: $countryCode, flagEmoji: $flagEmoji, accessToken: $accessToken, refreshToken: $refreshToken)';
   }
 }

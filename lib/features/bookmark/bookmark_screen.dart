@@ -4,7 +4,6 @@ import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
 import 'package:news_app/features/bookmark/cubit/bookmark_cubit.dart';
 import 'package:news_app/features/home/components/news_item.dart';
-
 import 'cubit/bookmark_state.dart';
 import 'widget/empty_state.dart';
 
@@ -49,6 +48,7 @@ class BookmarkScreen extends StatelessWidget {
         body: BlocBuilder<BookmarkCubit, BookmarkState>(
           builder: (context, state) {
             switch (state.bookmarksStatus) {
+              case RequestStatusEnum.initial:
               case RequestStatusEnum.loading:
                 return const Center(child: CircularProgressIndicator());
               case RequestStatusEnum.error:

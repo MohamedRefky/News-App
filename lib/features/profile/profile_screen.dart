@@ -13,6 +13,7 @@ import 'package:news_app/features/profile/cubit/profile_cubit.dart';
 import 'package:news_app/features/profile/custom_list_tile.dart';
 import 'bottom sheet/profile_bottom_sheet.dart';
 import 'cubit/profile_state.dart';
+import 'package:news_app/core/constants/constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -113,8 +114,9 @@ class ProfileScreen extends StatelessWidget {
                       leading: SvgPicture.asset('assets/images/logout_Icon.svg'),
                       trailingColor: LightColor.primaryColor,
                       onTap: () async {
-                        //await UserRepository().delete();
-                        await PreferencesManager().clear();
+                        await PreferencesManager().remove('is_logged_in');
+                        await PreferencesManager().remove(Constants.currentUser);
+                        
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => LoginScreen()),

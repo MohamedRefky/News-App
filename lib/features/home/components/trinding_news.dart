@@ -42,10 +42,11 @@ class TrindingNews extends StatelessWidget {
                     child: BlocBuilder<HomeCubit, HomeState>(
                       builder: (context, state) {
                         switch (state.everyThingStatus) {
+                          case RequestStatusEnum.initial:
                           case RequestStatusEnum.loading:
                             return TrindingNewsShimmer();
                           case RequestStatusEnum.error:
-                            return Center(child: Text(state.errorMessage!));
+                            return Center(child: Text(state.errorMessage ?? 'An error occurred'));
                           case RequestStatusEnum.loaded:
                             return ListView.separated(
                               padding: EdgeInsets.only(left: AppSizes.w16),

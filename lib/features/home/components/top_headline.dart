@@ -14,10 +14,11 @@ class TopHeadline extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (BuildContext context, state) {
         switch (state.topHeadlineStatus) {
+          case RequestStatusEnum.initial:
           case RequestStatusEnum.loading:
             return TopHeadlineShimmer();
           case RequestStatusEnum.error:
-            return SliverToBoxAdapter(child: Center(child: Text(state.errorMessage!)));
+            return SliverToBoxAdapter(child: Center(child: Text(state.errorMessage ?? 'An error occurred')));
           case RequestStatusEnum.loaded:
             return SliverList.builder(
               itemCount: state.newsTopHeadlineList.length,

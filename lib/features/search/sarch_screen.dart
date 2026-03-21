@@ -14,7 +14,7 @@ class SarchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => SearchCubit(NewsRepository(ApiServise())),
+      create: (BuildContext context) => SearchCubit(NewsRepository(ApiService())),
       child: Scaffold(
         appBar: AppBar(title: const Text('Search')),
         body: BlocBuilder<SearchCubit, SearchState>(

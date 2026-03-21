@@ -9,12 +9,15 @@ abstract class BaseNewsRepository {
 
 class NewsRepository extends BaseNewsRepository {
   NewsRepository(this.apiServise);
-  final BaseApiServise apiServise;
+  final BaseApiService apiServise;
 
   @override
-  Future<List<NewsArticleModel>> getTopHeadline({String? selectedCategory = 'General'}) async {
+  Future<List<NewsArticleModel>> getTopHeadline({
+    String? selectedCategory = 'General',
+  }) async {
     Map<String, dynamic> result = await apiServise.get(
       ApiConfig.topHeadlines,
+      ApiConfig.newsBaseUrl,
       params: {'country': 'us', 'category': selectedCategory},
     );
     return (result['articles'] as List).map((e) => NewsArticleModel.fromJson(e)).toList();
@@ -22,7 +25,11 @@ class NewsRepository extends BaseNewsRepository {
 
   @override
   Future<List<NewsArticleModel>> geTopEverything({String? query = 'news'}) async {
-    Map<String, dynamic> result = await apiServise.get(ApiConfig.everything, params: {'q': query});
+    Map<String, dynamic> result = await apiServise.get(
+      ApiConfig.everything,
+      ApiConfig.newsBaseUrl,
+      params: {'q': query},
+    );
     return (result['articles'] as List).map((e) => NewsArticleModel.fromJson(e)).toList();
   }
 }

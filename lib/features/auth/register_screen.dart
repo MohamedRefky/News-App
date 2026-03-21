@@ -177,7 +177,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
                         },
                         child: isLoading
-                            ? const CircularProgressIndicator()
+                            ? const CircularProgressIndicator(color: Colors.white)
                             : Text('Sign Up'),
                       ),
                     ),
