@@ -28,8 +28,9 @@ class UserModel {
   String? countryCode;
   @HiveField(6)
   String? flagEmoji;
-
+  @HiveField(7)
   String? accessToken;
+  @HiveField(8)
   String? refreshToken;
 
   factory UserModel.fromMap(Map<String, dynamic> map) {

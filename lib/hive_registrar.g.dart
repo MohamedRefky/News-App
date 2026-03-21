@@ -9,13 +9,13 @@ import 'package:news_app/features/bookmark/model/bookmark_model.dart';
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(BookmarkModelAdapter());
-    registerAdapter(UseerModelAdapter());
+    registerAdapter(UserModelAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(BookmarkModelAdapter());
-    registerAdapter(UseerModelAdapter());
+    registerAdapter(UserModelAdapter());
   }
 }

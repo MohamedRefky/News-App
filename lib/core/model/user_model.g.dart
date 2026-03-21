@@ -6,7 +6,7 @@ part of 'user_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class UseerModelAdapter extends TypeAdapter<UserModel> {
+class UserModelAdapter extends TypeAdapter<UserModel> {
   @override
   final typeId = 0;
 
@@ -24,14 +24,15 @@ class UseerModelAdapter extends TypeAdapter<UserModel> {
       countryName: fields[4] as String?,
       countryCode: fields[5] as String?,
       flagEmoji: fields[6] as String?,
+      accessToken: fields[7] as String?,
+      refreshToken: fields[8] as String?,
     );
   }
 
   @override
-
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -45,7 +46,11 @@ class UseerModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(5)
       ..write(obj.countryCode)
       ..writeByte(6)
-      ..write(obj.flagEmoji);
+      ..write(obj.flagEmoji)
+      ..writeByte(7)
+      ..write(obj.accessToken)
+      ..writeByte(8)
+      ..write(obj.refreshToken);
   }
 
   @override
@@ -54,7 +59,7 @@ class UseerModelAdapter extends TypeAdapter<UserModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UseerModelAdapter &&
+      other is UserModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

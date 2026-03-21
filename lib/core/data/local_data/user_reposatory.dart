@@ -17,7 +17,7 @@ class UserRepository {
   Future<void> init() async {
     await Hive.initFlutter();
     if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(UseerModelAdapter());
+      Hive.registerAdapter(UserModelAdapter());
     }
     _userBox = await Hive.openBox(Constants.userBox);
   }

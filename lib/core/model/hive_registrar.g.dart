@@ -7,12 +7,12 @@ import 'package:news_app/core/model/user_model.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
-    registerAdapter(UseerModelAdapter());
+    registerAdapter(UserModelAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
-    registerAdapter(UseerModelAdapter());
+    registerAdapter(UserModelAdapter());
   }
 }
