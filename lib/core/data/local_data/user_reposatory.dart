@@ -36,7 +36,7 @@ class UserRepository {
     String? flagEmoji,
   }) async {
     final UserModel? user = getUser();
-    if (user != null) {
+    if (user != null && user.email == email) {
       final updatedUser = user.copyWith(
         name: name,
         email: email,
