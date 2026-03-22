@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
-import 'package:news_app/core/data/remote_data/api_servise.dart';
+import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/data/remote_data/auth/auth_api_servise.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
 import 'package:news_app/features/auth/cubit/auth_cubit.dart';
@@ -20,11 +21,12 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthCubit>(
-      create: (BuildContext context) => AuthCubit(AuthRepository(ApiService())),
+      create: (BuildContext context) => AuthCubit(AuthRepository(AuthApiServise())),
       child: BlocListener<AuthCubit, AuthState>(
         listener: (BuildContext context, AuthState state) {
           if (state.status == RequestStatusEnum.loaded) {
-            Navigator.push(
+            PreferencesManager().setBool("is_logged_in", true);
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (BuildContext context) {

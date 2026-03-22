@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
-import 'package:news_app/core/data/remote_data/api_servise.dart';
+import 'package:news_app/core/data/remote_data/news/news_api_servise.dart';
 import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/news%20details/news_details_screen.dart';
 import 'package:news_app/features/search/cubit/search_cubit.dart';
-
 import 'cubit/search_state.dart';
 
 class SarchScreen extends StatelessWidget {
@@ -14,7 +13,7 @@ class SarchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => SearchCubit(NewsRepository(ApiService())),
+      create: (BuildContext context) => SearchCubit(NewsRepository(NewsApiService())),
       child: Scaffold(
         appBar: AppBar(title: const Text('Search')),
         body: BlocBuilder<SearchCubit, SearchState>(

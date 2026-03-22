@@ -7,13 +7,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/themes/light_color.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/profile/cubit/profile_cubit.dart';
 import 'package:news_app/features/profile/custom_list_tile.dart';
+
 import 'bottom sheet/profile_bottom_sheet.dart';
 import 'cubit/profile_state.dart';
-import 'package:news_app/core/constants/constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -114,9 +115,9 @@ class ProfileScreen extends StatelessWidget {
                       leading: SvgPicture.asset('assets/images/logout_Icon.svg'),
                       trailingColor: LightColor.primaryColor,
                       onTap: () async {
-                        await PreferencesManager().remove('is_logged_in');
-                        await PreferencesManager().remove(Constants.currentUser);
-                        
+                        await PreferencesManager().clear();
+                        await UserRepository().delete();
+
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => LoginScreen()),

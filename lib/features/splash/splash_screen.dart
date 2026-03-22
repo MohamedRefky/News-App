@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
+import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/features/auth/login_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
 import 'package:news_app/features/onboarding/onboarding_screen.dart';
@@ -23,6 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
     final bool onboardingComplete = PreferencesManager().getBool('onboarding_complete') ?? false;
     final bool isLoggedIn = PreferencesManager().getBool('is_logged_in') ?? false;
+   final hasAcsessToken  = UserRepository().getUser()?.accessToken != null;
 
     if (!onboardingComplete) {
       Navigator.pushReplacement(
@@ -33,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
           },
         ),
       );
-    } else if (!isLoggedIn) {
+    } else if (!isLoggedIn && !hasAcsessToken) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

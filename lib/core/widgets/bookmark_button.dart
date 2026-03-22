@@ -39,7 +39,6 @@ class _BookmarkButtonState extends State<BookmarkButton> {
 
   Future<void> _toggleBookmark() async {
     if (_isAnimating) return;
-
     setState(() {
       _isAnimating = true;
     });

@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
 import 'package:news_app/core/model/user_model.dart';
 import 'package:news_app/features/auth/repos/auth_repository.dart';
+
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -41,7 +41,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(status: RequestStatusEnum.error, errorMessage: error));
       return;
     }
-    await PreferencesManager().setBool("is_logged_in", true);
+
     emit(state.copyWith(status: RequestStatusEnum.loaded, errorMessage: null));
   }
 }

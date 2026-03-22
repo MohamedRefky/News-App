@@ -6,6 +6,7 @@ import 'package:news_app/features/splash/splash_screen.dart';
 import 'core/data/local_data/prefrances_maneger.dart';
 import 'features/bookmark/data/bookmark_repository.dart';
 
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   await ScreenUtil.ensureScreenSize();
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ class MainApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (_, child) {
         return MaterialApp(
+          navigatorKey: navigatorKey,
           debugShowCheckedModeBanner: false,
           title: 'News App',
           theme: lightTheme,
