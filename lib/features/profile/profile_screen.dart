@@ -78,7 +78,9 @@ class ProfileScreen extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           context: context,
                           builder: (context) => ProfileBottomSheet(),
-                        ).then((value) {
+                          
+                        ).then((value) {                          
+                          // ignore: use_build_context_synchronously
                           context.read<ProfileCubit>().getUserData();
                         });
                       },
@@ -119,6 +121,8 @@ class ProfileScreen extends StatelessWidget {
                         await UserRepository().delete();
 
                         Navigator.pushReplacement(
+                          
+                          // ignore: use_build_context_synchronously
                           context,
                           MaterialPageRoute(builder: (context) => LoginScreen()),
                         );
