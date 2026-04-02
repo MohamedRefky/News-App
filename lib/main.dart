@@ -13,7 +13,6 @@ void main() async {
   await PreferencesManager().init();
   await UserRepository().init();
   await BookmarkRepository().init();
-
   runApp(const MainApp());
 }
 
