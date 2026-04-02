@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/features/bookmark/bookmark_screen.dart';
 import 'package:news_app/features/bookmark/data/bookmark_repository.dart';
-import 'package:news_app/features/home/home_screen.dart';
-import 'package:news_app/features/profile/profile_screen.dart';
-import 'package:news_app/features/search/sarch_screen.dart' show SarchScreen;
+import 'package:news_app/features/bookmark/screen/bookmark_screen.dart';
+import 'package:news_app/features/home/screen/home_screen.dart';
+import 'package:news_app/features/profile/screen/profile_screen.dart';
+import 'package:news_app/features/search/screen/sarch_screen.dart' show SarchScreen;
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -64,14 +64,8 @@ class _MainScreenState extends State<MainScreen> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-          BottomNavigationBarItem(
-            icon: _buildBookmarkIcon(),
-            label: "Bookmark",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: "Profile",
-          ),
+          BottomNavigationBarItem(icon: _buildBookmarkIcon(), label: "Bookmark"),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profile"),
         ],
       ),
       body: _screens[_currentIndex],

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:news_app/core/data/local_data/user_reposatory.dart';
+import 'package:news_app/core/data/remote_data/news/news_api_servise.dart';
+import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/core/themes/light_theme.dart';
+import 'package:news_app/features/home/cubit/home_cubit.dart';
 import 'package:news_app/features/splash/splash_screen.dart';
 import 'core/data/local_data/prefrances_maneger.dart';
 import 'features/bookmark/data/bookmark_repository.dart';
@@ -26,12 +30,16 @@ class MainApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, child) {
-        return MaterialApp(
-          navigatorKey: navigatorKey,
-          debugShowCheckedModeBanner: false,
-          title: 'News App',
-          theme: lightTheme,
-          home: SplashScreen(),
+        return BlocProvider(
+          create: (context) =>
+              HomeCubit(NewsRepository(NewsApiService())),
+          child: MaterialApp(
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            title: 'News App',
+            theme: lightTheme,
+            home: SplashScreen(),
+          ),
         );
       },
     );

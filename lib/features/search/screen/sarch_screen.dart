@@ -5,7 +5,8 @@ import 'package:news_app/core/data/remote_data/news/news_api_servise.dart';
 import 'package:news_app/core/repos/news_repository.dart';
 import 'package:news_app/features/news%20details/news_details_screen.dart';
 import 'package:news_app/features/search/cubit/search_cubit.dart';
-import 'cubit/search_state.dart';
+
+import '../cubit/search_state.dart';
 
 class SarchScreen extends StatelessWidget {
   const SarchScreen({super.key});
@@ -15,7 +16,7 @@ class SarchScreen extends StatelessWidget {
     return BlocProvider(
       create: (BuildContext context) => SearchCubit(NewsRepository(NewsApiService())),
       child: Scaffold(
-        appBar: AppBar(title: const Text('Search')),
+        appBar: AppBar(automaticallyImplyLeading: false, title: const Text('Search')),
         body: BlocBuilder<SearchCubit, SearchState>(
           builder: (BuildContext context, state) {
             final controller = context.read<SearchCubit>();

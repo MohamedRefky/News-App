@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/themes/light_color.dart';
-import 'package:news_app/features/home/categories_screen.dart';
+import 'package:news_app/features/categories/categories_screen.dart';
 import 'package:news_app/features/home/cubit/home_cubit.dart';
 import 'package:news_app/features/home/cubit/home_state.dart';
 
@@ -22,13 +22,12 @@ class CategoriesList extends StatelessWidget {
                 title: 'Categories',
                 titleColor: Color(0xFF141414),
                 onTap: () {
+                  final homeCubit = context.read<HomeCubit>();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => BlocProvider.value(
-                        value: context.read<HomeCubit>(),
-                        child: CategoriesScreen(),
-                      ),
+                      builder: (_) =>
+                          BlocProvider.value(value: homeCubit, child: CategoriesScreen()),
                     ),
                   );
                 },

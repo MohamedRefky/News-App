@@ -5,36 +5,35 @@ import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/data/remote_data/auth/auth_api_servise.dart';
 import 'package:news_app/core/enums/request_status_enums.dart';
 import 'package:news_app/core/widgets/custom_text_form_field.dart';
-import 'package:news_app/features/auth/cubit/auth_state.dart';
-import 'package:news_app/features/auth/repos/auth_repository.dart';
+import 'package:news_app/features/auth/cubit/auth_cubit.dart';
+import 'package:news_app/features/auth/screen/register_screen.dart';
 import 'package:news_app/features/main/main_screen.dart';
 
-import 'cubit/auth_cubit.dart';
+import '../cubit/auth_state.dart';
+import '../repos/auth_repository.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
 
-  final TextEditingController emailController = TextEditingController();
-
-  final TextEditingController nameController = TextEditingController();
-
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  final TextEditingController confirmPasswordController = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(AuthRepository(AuthApiServise())),
+    return BlocProvider<AuthCubit>(
+      create: (BuildContext context) => AuthCubit(AuthRepository(AuthApiServise())),
       child: BlocListener<AuthCubit, AuthState>(
-        listener: (context, state) {
+        listener: (BuildContext context, AuthState state) {
           if (state.status == RequestStatusEnum.loaded) {
             PreferencesManager().setBool("is_logged_in", true);
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const MainScreen()),
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return const MainScreen();
+                },
+              ),
             );
           }
         },
@@ -49,14 +48,15 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
             child: BlocBuilder<AuthCubit, AuthState>(
-              builder: (context, state) {
+              builder: (BuildContext context, state) {
                 return Padding(
-                  padding: EdgeInsets.all(AppSizes.r16),
+                  padding: const EdgeInsets.all(16.0),
                   child: Form(
                     key: _formKey,
                     child: Center(
                       child: SingleChildScrollView(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Center(
@@ -76,37 +76,14 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             SizedBox(height: AppSizes.h24),
                             CustomTextFormField(
-                              title: 'User Name',
-                              hintText: 'Mahmoud Refky',
-                              controller: nameController,
-                              validator: (value) {
-                                if (value.trim().isEmpty) {
-                                  return 'Enter your name';
-                                }
-
-                                if (!RegExp(
-                                  r'^[a-zA-Z\u0600-\u06FF\s]+$',
-                                ).hasMatch(value)) {
-                                  return 'Enter valid name';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: AppSizes.h24),
-                            CustomTextFormField(
                               title: 'Email',
                               hintText: 'refky@gmail.com',
-                              controller: emailController,
+                              controller: usernameController,
                               validator: (value) {
-                                if (value.isEmpty || value.trim().isEmpty) {
-                                  return 'Enter your email';
+                                if (value.trim().isEmpty || value.trim().isEmpty) {
+                                  return 'Enter email';
                                 }
-                                RegExp emailRegex = RegExp(
-                                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                                );
-                                if (!emailRegex.hasMatch(value)) {
-                                  return 'Enter valid email';
-                                }
+
                                 return null;
                               },
                             ),
@@ -118,36 +95,18 @@ class RegisterScreen extends StatelessWidget {
                               obscureText: true,
                               validator: (value) {
                                 if (value.isEmpty || value.trim().isEmpty) {
-                                  return 'Confirm your password';
+                                  return 'Enter password';
                                 }
-
-                                return null;
                               },
                             ),
                             if (state.errorMessage != null)
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: AppSizes.h16),
+                                padding: EdgeInsets.symmetric(vertical: AppSizes.h8),
                                 child: Text(
-                                  state.errorMessage!,
+                                  'Your email or password is incorrect',
                                   style: const TextStyle(color: Colors.red),
                                 ),
                               ),
-                            SizedBox(height: AppSizes.h24),
-                            CustomTextFormField(
-                              title: 'Confirm Passward',
-                              hintText: '*************',
-                              controller: confirmPasswordController,
-                              validator: (value) {
-                                if (value.isEmpty || value.trim().isEmpty) {
-                                  return 'Enter password';
-                                }
-                                if (value != passwordController.text) {
-                                  return 'Passwords Not match';
-                                }
-                                return null;
-                              },
-                              obscureText: true,
-                            ),
                             SizedBox(height: AppSizes.h24),
                             SizedBox(
                               width: double.infinity,
@@ -155,24 +114,24 @@ class RegisterScreen extends StatelessWidget {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState?.validate() ?? false) {
-                                    context.read<AuthCubit>().register(
-                                      name: nameController.text,
-                                      email: emailController.text,
-                                      password: passwordController.text,
+                                    context.read<AuthCubit>().login(
+                                      usernameController.text,
+                                      passwordController.text,
                                     );
                                   }
                                 },
                                 child: state.status == RequestStatusEnum.loading
                                     ? const CircularProgressIndicator(color: Colors.white)
-                                    : Text('Sign Up'),
+                                    : Text('Sign In'),
                               ),
                             ),
                             SizedBox(height: AppSizes.h24),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Have an account ?',
+                                  'Don’t have an account ?',
                                   style: TextStyle(
                                     fontSize: AppSizes.sp14,
                                     color: Color(0xFF141414),
@@ -181,9 +140,14 @@ class RegisterScreen extends StatelessWidget {
                                 SizedBox(width: AppSizes.w8),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => RegisterScreen(),
+                                      ),
+                                    );
                                   },
-                                  child: Text('Sign In'),
+                                  child: Text('Sign Up'),
                                 ),
                               ],
                             ),

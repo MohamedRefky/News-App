@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
-import 'package:news_app/features/auth/login_screen.dart';
+import 'package:news_app/features/auth/screen/login_screen.dart';
 import 'package:news_app/features/onboarding/cubit/onboarding_cubit.dart';
 import 'package:news_app/features/onboarding/model/onboarding_model.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'cubit/onboarding_state.dart';
+import '../cubit/onboarding_state.dart';
 
 class OnboardingSceen extends StatelessWidget {
   const OnboardingSceen({super.key});

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,11 +9,12 @@ import 'package:news_app/core/constants/app_sizes.dart';
 import 'package:news_app/core/data/local_data/prefrances_maneger.dart';
 import 'package:news_app/core/data/local_data/user_reposatory.dart';
 import 'package:news_app/core/themes/light_color.dart';
-import 'package:news_app/features/auth/login_screen.dart';
+import 'package:news_app/features/auth/screen/login_screen.dart';
 import 'package:news_app/features/profile/cubit/profile_cubit.dart';
-import 'package:news_app/features/profile/custom_list_tile.dart';
-import 'bottom sheet/profile_bottom_sheet.dart';
-import 'cubit/profile_state.dart';
+import 'package:news_app/features/profile/widget/custom_list_tile.dart';
+
+import '../widget/profile_bottom_sheet.dart';
+import '../cubit/profile_state.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -42,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              showImageSorceDialog(context);
+                              showImageSorceDialog(context, context.read<ProfileCubit>());
                             },
                             child: Container(
                               height: AppSizes.h40,
@@ -76,8 +78,7 @@ class ProfileScreen extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           context: context,
                           builder: (context) => ProfileBottomSheet(),
-                          
-                        ).then((value) {                          
+                        ).then((value) {
                           //ignore: use_build_context_synchronously
                           context.read<ProfileCubit>().getUserData();
                         });
@@ -119,7 +120,6 @@ class ProfileScreen extends StatelessWidget {
                         await UserRepository().delete();
 
                         Navigator.pushReplacement(
-                          
                           // ignore: use_build_context_synchronously
                           context,
                           MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -138,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-void showImageSorceDialog(BuildContext context) {
+void showImageSorceDialog(BuildContext context, ProfileCubit cubit) {
   showDialog(
     context: context,
     builder: (context) {
@@ -155,7 +155,7 @@ void showImageSorceDialog(BuildContext context) {
             ),
             onPressed: () {
               Navigator.pop(context);
-              context.read<ProfileCubit>().pickImage(ImageSource.camera);
+              cubit.pickImage(ImageSource.camera);
             },
           ),
           SimpleDialogOption(
@@ -168,7 +168,7 @@ void showImageSorceDialog(BuildContext context) {
             ),
             onPressed: () {
               Navigator.pop(context);
-              context.read<ProfileCubit>().pickImage(ImageSource.gallery);
+              cubit.pickImage(ImageSource.gallery);
             },
           ),
         ],
