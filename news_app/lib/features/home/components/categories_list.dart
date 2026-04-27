@@ -1,0 +1,97 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/core/constants/app_sizes.dart';
+import 'package:news_app/core/themes/light_color.dart';
+import 'package:news_app/features/categories/categories_screen.dart';
+import 'package:news_app/features/home/cubit/home_cubit.dart';
+import 'package:news_app/features/home/cubit/home_state.dart';
+
+import 'viewall_component.dart';
+
+class CategoriesList extends StatelessWidget {
+  CategoriesList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (BuildContext context, state) {
+          return Column(
+            children: [
+              ViewallComponent(
+                title: 'Categories',
+                titleColor: Color(0xFF141414),
+                onTap: () {
+                  final homeCubit = context.read<HomeCubit>();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          BlocProvider.value(value: homeCubit, child: CategoriesScreen()),
+                    ),
+                  );
+                },
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: AppSizes.w16,
+                  bottom: AppSizes.h16,
+                  right: AppSizes.w16,
+                ),
+                child: SizedBox(
+                  height: AppSizes.h35,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: category.length,
+                    separatorBuilder: (context, index) => SizedBox(width: AppSizes.w12),
+                    itemBuilder: (context, index) {
+                      final isSelected = state.selectedCategory == category[index];
+                      return IntrinsicWidth(
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.read<HomeCubit>().updateSelectCategory(
+                                  category[index],
+                                );
+                              },
+                              child: Text(
+                                category[index],
+                                style: TextStyle(
+                                  color: Color(0xFF363636),
+                                  fontSize: AppSizes.sp16,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            if (isSelected) ...[
+                              SizedBox(height: AppSizes.h6),
+                              Container(
+                                height: AppSizes.h2,
+                                color: LightColor.primaryColor,
+                              ),
+                            ],
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  final List<String> category = [
+    'General',
+    'Technology',
+    'Sports',
+    'Entertainment',
+    'Business',
+    'Health',
+    'Science',
+  ];
+}
